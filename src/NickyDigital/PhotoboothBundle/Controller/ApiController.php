@@ -3,7 +3,10 @@
 namespace NickyDigital\PhotoboothBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
+use Facebook;
 use NickyDigital\PhotoboothBundle\Entity\Email;
+use NickyDigital\PhotoboothBundle\Entity\FacebookShare;
+use NickyDigital\PhotoboothBundle\Entity\Photo;
 use NickyDigital\PhotoboothBundle\Entity\PhotoEvent;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -34,6 +37,16 @@ class ApiController extends FOSRestController
 	 */
 	protected $em;
 
+	protected $facebook;
+
+	public function __construct() {
+		$this->facebook = new Facebook(array(
+		    'appId' => '596065173744275',
+		    'secret' => '272dec3fa799dc5751205642ad90318a',
+		));		
+	}
+	
+	
 	/**
 	 * @Route("/event", name="api_event")
 	 * @Method({"GET"})
@@ -200,6 +213,56 @@ class ApiController extends FOSRestController
 		return array("status" => "success");
 	}
 
+	/**
+	 * @Route("/facebookshare", name="api_facebookshare")
+	 * @Method({"POST"})
+	 */
+	public function facebookshareAction(Request $request)
+	{
+
+		$event = $this->getCurrentEvent();
+		
+		$email = $request->request->get("email");
+		$token = $request->request->get("token");
+		$filename = $request->request->get("filename");
+		$body = $request->request->get("body");
+
+		if ($body == "") {
+			$body = $event->getAlbumName();
+		}
+
+		$query = $this->em->createQuery('SELECT p FROM NickyDigital\PhotoboothBundle\Entity\Photo p WHERE p.event=:event AND p.filename=:filename');
+		$query->setParameter("event", $event);
+		$query->setParameter("filename", $filename);
+		$photos = $query->getResult();
+
+		
+		if (count($photos) > 0) {
+			$photo = $photos[0];
+		} else {
+			$photo = new Photo();
+			$photo->setFilename($filename);
+			$photo->setEvent($event);
+			$photo->setDeleted(false);
+			$photo->setMissing(false);
+			$this->em->persist($photo);
+			$this->em->flush();
+		}
+		
+		
+		$share = new FacebookShare();
+		$share->setEmail($email);
+		$share->setOauthToken($token);
+		$share->setPhoto($photo);
+		$share->setBody($body);
+		$share->setOauthCode("");
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+		$this->em->persist($share);
+		$this->em->flush();
+
+		return array("status" => "success");
+	}
 
 
 

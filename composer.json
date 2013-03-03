@@ -33,7 +33,8 @@
 		"cedriclombardot/admingenerator-generator-bundle": "dev-master",
 		"cedriclombardot/twig-generator": "dev-master",
 		"cedriclombardot/admingenerator-user-bundle": "dev-master",
-		"white-october/pagerfanta-bundle": "dev-master"
+		"white-october/pagerfanta-bundle": "dev-master",
+		"facebook/php-sdk": "dev-master"
 	},
 	"scripts": {
 		"post-install-cmd": [

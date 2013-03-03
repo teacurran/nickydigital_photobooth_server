@@ -33,12 +33,12 @@ class FacebookShare
 	private $photo;
 
 	/**
-	 * @ORM\Column(type="string", length=200)
+	 * @ORM\Column(type="string", length=200, nullable=true)
 	 */
 	protected $oauthCode;
 
 	/**
-	 * @ORM\Column(type="string", length=200)
+	 * @ORM\Column(type="string", length=200, nullable=true)
 	 */
 	protected $oauthToken;
 
@@ -60,7 +60,7 @@ class FacebookShare
 	protected $dateSent;
 
 	/**
-	 * @ORM\Column(type="text")
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $body;
 
