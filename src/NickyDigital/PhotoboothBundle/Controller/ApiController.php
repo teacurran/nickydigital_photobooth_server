@@ -84,7 +84,11 @@ class ApiController extends FOSRestController
 			"name" => $event->getEventName(),
 			"album_name" => $event->getAlbumName(),
 			"short_share" => $event->getShortShareText(),
-			"long_share" => $event->getLongShareText()
+			"long_share" => $event->getLongShareText(),
+			"show_facebook" => $event->getShowFacebook(),
+			"show_twitter" => $event->getShowTwitter(),
+			"show_tumblr" => $event->getShowTumblr(),
+			"show_email" => $event->getShowEmail()
 		);
 	}
 

@@ -21,21 +21,21 @@ builders:
   new:
     params:
       title: New Event
-      display: [eventCode, eventName, albumName, shortShareText, longShareText, current ]
+      display: [eventCode, eventName, albumName, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, albumName, shortShareText, longShareText, current ]
+      display: [eventCode, eventName, albumName, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         save: ~
         list: ~
   show:
     params:
       title: "You're viewing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, albumName, shortShareText, longShareText, current ]
+      display: [eventCode, eventName, albumName, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         list: ~
         new: ~

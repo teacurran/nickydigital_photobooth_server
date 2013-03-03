@@ -53,9 +53,34 @@ class PhotoEvent
 	protected $longShareText;
 
 	/**
+	 * @ORM\Column(type="text")
+	 */
+	protected $emailShareText;
+
+	/**
 	 * @ORM\Column(type="boolean")
 	 */
-	protected $current;
+	protected $current = false;
+
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $showFacebook = false;
+
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $showTwitter = false;
+
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $showTumblr = false;
+
+	/**
+	 * @ORM\Column(type="boolean")
+	 */
+	protected $showEmail = false;
 
 	/**
 	 * @ORM\OneToMany(targetEntity="Photo", mappedBy="event")
@@ -238,5 +263,54 @@ class PhotoEvent
 		return $this->eventCode;
 	}
 
+	public function setEmailShareText($emailShareText)
+	{
+		$this->emailShareText = $emailShareText;
+	}
+
+	public function getEmailShareText()
+	{
+		return $this->emailShareText;
+	}
+
+	public function setShowEmail($showEmail)
+	{
+		$this->showEmail = $showEmail;
+	}
+
+	public function getShowEmail()
+	{
+		return $this->showEmail;
+	}
+
+	public function setShowFacebook($showFacebook)
+	{
+		$this->showFacebook = $showFacebook;
+	}
+
+	public function getShowFacebook()
+	{
+		return $this->showFacebook;
+	}
+
+	public function setShowTumblr($showTumblr)
+	{
+		$this->showTumblr = $showTumblr;
+	}
+
+	public function getShowTumblr()
+	{
+		return $this->showTumblr;
+	}
+
+	public function setShowTwitter($showTwitter)
+	{
+		$this->showTwitter = $showTwitter;
+	}
+
+	public function getShowTwitter()
+	{
+		return $this->showTwitter;
+	}
 
 }
