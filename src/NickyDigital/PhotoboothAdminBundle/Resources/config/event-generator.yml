@@ -23,12 +23,14 @@ builders:
       title: New Event
       display: [eventCode, eventName, albumName, shortShareText, longShareText, current ]
       actions:
+        save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
       display: [eventCode, eventName, albumName, shortShareText, longShareText, current ]
       actions:
+        save: ~
         list: ~
   show:
     params:
