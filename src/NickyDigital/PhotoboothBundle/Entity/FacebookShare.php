@@ -23,6 +23,11 @@ class FacebookShare
     private $id;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="Account", inversedBy="facebookShares")
+	 */
+	private $account;
+
+	/**
 	 * @ORM\Column(type="string", length=200)
 	 */
 	protected $email;
@@ -58,6 +63,11 @@ class FacebookShare
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	protected $dateSent;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $status;
 
 	/**
 	 * @ORM\Column(type="text", nullable=true)
@@ -144,4 +154,50 @@ class FacebookShare
 		return $this->photo;
 	}
 
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return FacebookShare
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set account
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Account $account
+     * @return FacebookShare
+     */
+    public function setAccount(\NickyDigital\PhotoboothBundle\Entity\Account $account = null)
+    {
+        $this->account = $account;
+    
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return \NickyDigital\PhotoboothBundle\Entity\Account 
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
 }

@@ -259,6 +259,7 @@ class ApiController extends FOSRestController
 		$share->setOauthToken($token);
 		$share->setPhoto($photo);
 		$share->setBody($body);
+		$share->setStatus("queue");
 		$share->setOauthCode("");
 
 		$this->em = $this->get('doctrine.orm.entity_manager');
@@ -269,8 +270,70 @@ class ApiController extends FOSRestController
 	}
 
 
+	/**
+	 * @Route("/processuploads", name="api_processuploads")
+	 * @Method({"GET"})
+	 */
+	public function processuploadsAction(Request $request)
+	{
+		$this->em = $this->get('doctrine.orm.entity_manager');
 
-	
+		$event = $this->getCurrentEvent();
+
+		$query = $this->em->createQuery('SELECT s FROM NickyDigital\PhotoboothBundle\Entity\FacebookShare s WHERE s.status=:status');
+		$query->setParameter("status", "queue");
+		$query->setMaxResults(2);
+		$uploads = $query->getResult();
+
+		if (count($uploads) > 0) {
+			foreach($uploads as $upload) {
+				$upload->setStatus("uploading");
+				$this->em->persist($upload);
+				$this->em->flush();
+
+				$this->facebook->setAccessToken($upload->getOauthToken());
+
+				$album_uid = null;
+				$albums = $this->facebook->api('/me/albums');
+				foreach($albums['data'] as $album)  {
+					if ($album['name'] == $event->getAlbumName()) {
+						$album_uid = $album['id'];
+					}
+				}
+				
+				$this->facebook->setFileUploadSupport(true);
+
+				//Create an album
+				if ($album_uid == null) {
+					$album_details = array(
+							'message'=> $upload->getBody(),
+							'name'=> $event->getAlbumName()
+					);
+					$create_album = $this->facebook->api('/me/albums', 'post', $album_details);
+					  
+					//Get album ID of the album you've just created
+					$album_uid = $create_album['id'];
+				}
+  
+				//Upload a photo to album of ID...
+				$photo_details = array(
+					'message' => $upload->getBody()
+				);
+
+				$file='app.jpg'; //Example image file
+				$photo_details['image'] = '@' . $this->getPhotoDir() . "/" . $upload->getPhoto()->getFilename();
+				  
+				$upload_photo = $this->facebook->api('/'.$album_uid.'/photos', 'post', $photo_details);
+
+				$upload->setStatus("complete");
+				$this->em->persist($upload);
+				$this->em->flush();
+			} 
+		}
+
+		return array("status" => "success");
+	}
+
 	private function getPhotoDir()
 	{
 		$rootDir = $this->container->get('kernel')->getRootdir(); 

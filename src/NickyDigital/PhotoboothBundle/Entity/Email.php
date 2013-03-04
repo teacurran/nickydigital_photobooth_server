@@ -13,16 +13,15 @@ use Gedmo\Mapping\Annotation as Gedmo;
  */
 class Email
 {
-    /**
-     * @var integer
-     *
-     * @ORM\Column(name="id", type="integer")
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="id", type="integer")
+	 * @ORM\Id
+	 * @ORM\GeneratedValue(strategy="AUTO")
+	 */
+	private $id;
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @param \DateTime $created
 	 *
@@ -88,6 +87,4 @@ class Email
 	}
 
 
-
-	
 }

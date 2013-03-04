@@ -23,9 +23,14 @@ class EmailShare
 	private $id;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="Account", inversedBy="emailShares")
+	 */
+	private $account;
+
+	/**
 	 * @ORM\Column(type="string", length=200)
 	 */
-	protected $emailFromo;
+	protected $emailFrom;
 
 	/**
 	 * @ORM\Column(type="string", length=200)
@@ -38,11 +43,15 @@ class EmailShare
 	protected $subject;
 
 	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $status;
+	
+	/**
 	 * @ORM\Column(type="text")
 	 */
 	protected $body;
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @var created $created
 	 *
@@ -51,7 +60,6 @@ class EmailShare
 	 */
 	protected $created;
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @var dateSent $updated
 	 *
@@ -149,4 +157,73 @@ class EmailShare
 
 
 	
+
+    /**
+     * Set emailFrom
+     *
+     * @param string $emailFrom
+     * @return EmailShare
+     */
+    public function setEmailFrom($emailFrom)
+    {
+        $this->emailFrom = $emailFrom;
+    
+        return $this;
+    }
+
+    /**
+     * Get emailFrom
+     *
+     * @return string 
+     */
+    public function getEmailFrom()
+    {
+        return $this->emailFrom;
+    }
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return EmailShare
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set account
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Account $account
+     * @return EmailShare
+     */
+    public function setAccount(\NickyDigital\PhotoboothBundle\Entity\Account $account = null)
+    {
+        $this->account = $account;
+    
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return \NickyDigital\PhotoboothBundle\Entity\Account 
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
 }

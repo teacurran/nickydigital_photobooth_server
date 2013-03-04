@@ -43,7 +43,6 @@ class Photo
 	protected $deleted;
 	
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @var datetime $created
 	 *
@@ -52,7 +51,6 @@ class Photo
 	 */
 	protected $created;
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @var datetime $updated
 	 *
@@ -158,4 +156,34 @@ class Photo
 		return $this->updated;
 	}
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->facebookShares = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add facebookShares
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\FacebookShare $facebookShares
+     * @return Photo
+     */
+    public function addFacebookShare(\NickyDigital\PhotoboothBundle\Entity\FacebookShare $facebookShares)
+    {
+        $this->facebookShares[] = $facebookShares;
+    
+        return $this;
+    }
+
+    /**
+     * Remove facebookShares
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\FacebookShare $facebookShares
+     */
+    public function removeFacebookShare(\NickyDigital\PhotoboothBundle\Entity\FacebookShare $facebookShares)
+    {
+        $this->facebookShares->removeElement($facebookShares);
+    }
 }

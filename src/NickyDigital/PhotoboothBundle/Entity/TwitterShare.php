@@ -6,12 +6,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * TwitterShares
+ * TwitterShare
  *
  * @ORM\Table()
  * @ORM\Entity
  */
-class TwitterShares
+class TwitterShare
 {
 	/**
 	 * @var integer
@@ -21,6 +21,11 @@ class TwitterShares
 	 * @ORM\GeneratedValue(strategy="AUTO")
 	 */
 	private $id;
+
+	/**
+	 * @ORM\ManyToOne(targetEntity="Account", inversedBy="twitterShares")
+	 */
+	private $account;
 
 	/**
 	 * @ORM\ManyToOne(targetEntity="Photo", inversedBy="twitterShares")
@@ -58,6 +63,11 @@ class TwitterShares
 	 * @ORM\Column(type="datetime", nullable=true)
 	 */
 	protected $dateSent;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $status;
 
 	public function setCreated($created)
 	{
@@ -130,4 +140,50 @@ class TwitterShares
 	}
 
 
+
+    /**
+     * Set status
+     *
+     * @param string $status
+     * @return TwitterShare
+     */
+    public function setStatus($status)
+    {
+        $this->status = $status;
+    
+        return $this;
+    }
+
+    /**
+     * Get status
+     *
+     * @return string 
+     */
+    public function getStatus()
+    {
+        return $this->status;
+    }
+
+    /**
+     * Set account
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Account $account
+     * @return TwitterShare
+     */
+    public function setAccount(\NickyDigital\PhotoboothBundle\Entity\Account $account = null)
+    {
+        $this->account = $account;
+    
+        return $this;
+    }
+
+    /**
+     * Get account
+     *
+     * @return \NickyDigital\PhotoboothBundle\Entity\Account 
+     */
+    public function getAccount()
+    {
+        return $this->account;
+    }
 }

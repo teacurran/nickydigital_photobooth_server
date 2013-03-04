@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Gedmo\Mapping\Annotation as Gedmo;
 
 /**
- * Event
+ * PhotoEvent
  *
  * @ORM\Table()
  * @ORM\Entity
@@ -313,4 +313,58 @@ class PhotoEvent
 		return $this->showTwitter;
 	}
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->photos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->emails = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+    
+    /**
+     * Add photos
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Photo $photos
+     * @return PhotoEvent
+     */
+    public function addPhoto(\NickyDigital\PhotoboothBundle\Entity\Photo $photos)
+    {
+        $this->photos[] = $photos;
+    
+        return $this;
+    }
+
+    /**
+     * Remove photos
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Photo $photos
+     */
+    public function removePhoto(\NickyDigital\PhotoboothBundle\Entity\Photo $photos)
+    {
+        $this->photos->removeElement($photos);
+    }
+
+    /**
+     * Add emails
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Email $emails
+     * @return PhotoEvent
+     */
+    public function addEmail(\NickyDigital\PhotoboothBundle\Entity\Email $emails)
+    {
+        $this->emails[] = $emails;
+    
+        return $this;
+    }
+
+    /**
+     * Remove emails
+     *
+     * @param \NickyDigital\PhotoboothBundle\Entity\Email $emails
+     */
+    public function removeEmail(\NickyDigital\PhotoboothBundle\Entity\Email $emails)
+    {
+        $this->emails->removeElement($emails);
+    }
 }
