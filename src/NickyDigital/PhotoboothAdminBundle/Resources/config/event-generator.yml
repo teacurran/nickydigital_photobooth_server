@@ -3,8 +3,20 @@ params:
   model: NickyDigital\PhotoboothBundle\Entity\PhotoEvent
   namespace_prefix: NickyDigital
   bundle_name: PhotoboothAdminBundle
-  fields: id, eventName, current
-
+  fields:
+    eventCode.label: Code
+    eventName.label: Name
+    folder.label: Folder
+    albumName.label: Album Name
+    albumDesc.label: Album Description
+    shortShareText.label: Short Share Text
+    longShareText.label: Long Share Text
+    current.label: Is Current
+    showFacebook.label: Show Facebook Button
+    showTwitter.label: Show Twitter Button
+    showTumblr.label: Show Tumblr Button
+    showEmail.label: Show Email Button
+    
 builders:
   list:
     params:
@@ -21,21 +33,21 @@ builders:
   new:
     params:
       title: New Event
-      display: [eventCode, eventName, albumName, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, albumName, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         save: ~
         list: ~
   show:
     params:
       title: "You're viewing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, albumName, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         list: ~
         new: ~

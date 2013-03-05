@@ -30,12 +30,22 @@ class PhotoEvent
 	/**
 	 * @ORM\Column(type="string", length=100)
 	 */
+	protected $folder;
+
+	/**
+	 * @ORM\Column(type="string", length=100)
+	 */
 	protected $eventName;
 
 	/**
 	 * @ORM\Column(type="string", length=100)
 	 */
 	protected $albumName;
+
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $albumDesc;
 
 	/**
 	 * @ORM\Column(type="string", length=200, nullable=true)
@@ -367,4 +377,26 @@ class PhotoEvent
     {
         $this->emails->removeElement($emails);
     }
+
+	public function setFolder($folder)
+	{
+		$this->folder = $folder;
+	}
+
+	public function getFolder()
+	{
+		return $this->folder;
+	}
+
+	public function setAlbumDesc($albumDesc)
+	{
+		$this->albumDesc = $albumDesc;
+	}
+
+	public function getAlbumDesc()
+	{
+		return $this->albumDesc;
+	}
+
+	
 }

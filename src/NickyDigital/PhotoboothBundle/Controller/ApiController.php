@@ -106,7 +106,7 @@ class ApiController extends FOSRestController
 
 		$finder = new Finder();
 
-		$filesDir = $this->getPhotoDir() . "/" . $event->getEventCode();
+		$filesDir = $this->getPhotoDir($event);
 		if (!$this->rmkdir($filesDir)) {
 			die("Failed to create folders:" . $filesDir);
 		}
@@ -120,8 +120,7 @@ class ApiController extends FOSRestController
 			if (true || strpos($filename, '.gif', 1) || strpos($filename, '.jpg', 1)) {
 				$i++;
 				$photo = array();
-				$photo['filename'] = $event->getEventCode() . "/" . $filename;
-				$photo['id'] = $i;
+				$photo['filename'] = $filename;
 
 				array_push($photoListArray, $photo);
 			}
@@ -148,10 +147,10 @@ class ApiController extends FOSRestController
 	}
 
 	/**
-	 * @Route("/photo/{width}/{code}/{filename}", name="api_photo")
+	 * @Route("/photo/{width}/{filename}", name="api_photo")
 	 * @Method({"GET"})
 	 */
-	public function photoAction($width, $code, $filename)
+	public function photoAction($width, $filename)
 	{
 		if ($width != "original") {
 			if (!is_numeric($width)) {
@@ -160,8 +159,12 @@ class ApiController extends FOSRestController
 
 		}
 
-		$originalFilename = $this->getPhotoDir() . "/" . $code . "/" . $filename;
-		$sizedFileDir = $this->getCacheDir() . "/" . $code . "/" . $width;
+		$event = $this->getCurrentEvent();
+
+		$filesDir = $this->getPhotoDir($event);
+
+		$originalFilename = $filesDir . "/" . $filename;
+		$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $width;
 		$sizedFilename = $sizedFileDir . "/" . $filename;
 
 		if (!file_exists($originalFilename)) {
@@ -306,7 +309,7 @@ class ApiController extends FOSRestController
 				//Create an album
 				if ($album_uid == null) {
 					$album_details = array(
-							'message'=> $upload->getBody(),
+							'message'=> $event->getAlbumDesc(),
 							'name'=> $event->getAlbumName()
 					);
 					$create_album = $this->facebook->api('/me/albums', 'post', $album_details);
@@ -321,7 +324,7 @@ class ApiController extends FOSRestController
 				);
 
 				$file='app.jpg'; //Example image file
-				$photo_details['image'] = '@' . $this->getPhotoDir() . "/" . $upload->getPhoto()->getFilename();
+				$photo_details['image'] = '@' . $this->getPhotoDir($event) . "/" . $upload->getPhoto()->getFilename();
 				  
 				$upload_photo = $this->facebook->api('/'.$album_uid.'/photos', 'post', $photo_details);
 
@@ -334,10 +337,14 @@ class ApiController extends FOSRestController
 		return array("status" => "success");
 	}
 
-	private function getPhotoDir()
+	private function getPhotoDir(PhotoEvent $event)
 	{
+		if ($event->getFolder() != "") {
+			return $event->getFolder(); 
+		}
 		$rootDir = $this->container->get('kernel')->getRootdir(); 
-		return substr($rootDir, 0, strlen($rootDir) - 4) . "/photos";
+
+		return substr($rootDir, 0, strlen($rootDir) - 4) . "/photos" . "/" . $event->getEventCode();
 	}
 
 	private function getCacheDir()
