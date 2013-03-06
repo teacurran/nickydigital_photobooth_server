@@ -34,7 +34,8 @@
 		"cedriclombardot/twig-generator": "dev-master",
 		"cedriclombardot/admingenerator-user-bundle": "dev-master",
 		"white-october/pagerfanta-bundle": "dev-master",
-		"facebook/php-sdk": "dev-master"
+		"facebook/php-sdk": "dev-master",
+		"themattharris/tmhoauth": "dev-master"
 	},
 	"scripts": {
 		"post-install-cmd": [

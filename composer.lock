@@ -1,5 +1,5 @@
 {
-    "hash": "72100f7fb7479e9cd1ca46dd20ae42a2",
+    "hash": "1e60afa3380004acb3223bad4efb81b4",
     "packages": [
         {
             "name": "cedriclombardot/admingenerator-generator-bundle",
@@ -8,12 +8,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle.git",
-                "reference": "978f8ac4213f59ed6768b0cebaaa85b24b711b53"
+                "reference": "08aa74ff6d2f7ed5d6231f52d486cec7457b0c75"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/978f8ac4213f59ed6768b0cebaaa85b24b711b53",
-                "reference": "978f8ac4213f59ed6768b0cebaaa85b24b711b53",
+                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/08aa74ff6d2f7ed5d6231f52d486cec7457b0c75",
+                "reference": "08aa74ff6d2f7ed5d6231f52d486cec7457b0c75",
                 "shasum": ""
             },
             "require": {
@@ -64,7 +64,7 @@
                 "generator",
                 "yaml"
             ],
-            "time": "2013-03-05 22:19:11"
+            "time": "2013-03-05 22:48:05"
         },
         {
             "name": "cedriclombardot/admingenerator-user-bundle",
@@ -106,7 +106,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/cedriclombardot/TwigGenerator.git",
+                "url": "git://github.com/cedriclombardot/TwigGenerator.git",
                 "reference": "b4a846956d330ed464070f6276801d16c92ae5c5"
             },
             "dist": {
@@ -533,7 +533,7 @@
             "target-dir": "Doctrine/Bundle/DoctrineBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/doctrine/DoctrineBundle.git",
+                "url": "git://github.com/doctrine/DoctrineBundle.git",
                 "reference": "78b3680da8ae38f87df83a100e2e3a6820dd6177"
             },
             "dist": {
@@ -1202,7 +1202,7 @@
             "target-dir": "JMS/AopBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/schmittjoh/JMSAopBundle.git",
+                "url": "https://github.com/schmittjoh/JMSAopBundle",
                 "reference": "7018357f5bedf204979a88867a9da05973744422"
             },
             "dist": {
@@ -1415,7 +1415,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/schmittjoh/parser-lib.git",
+                "url": "git://github.com/schmittjoh/parser-lib",
                 "reference": "4d469a70c6dd03f921cbdeadafbcb261bb23e8b0"
             },
             "dist": {
@@ -1522,12 +1522,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "8ec7b14234ecd84d0926132e922f85a42818f738"
+                "reference": "778542ba8b82e5a530af6580eb2588de7ce2c3ff"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/8ec7b14234ecd84d0926132e922f85a42818f738",
-                "reference": "8ec7b14234ecd84d0926132e922f85a42818f738",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/778542ba8b82e5a530af6580eb2588de7ce2c3ff",
+                "reference": "778542ba8b82e5a530af6580eb2588de7ce2c3ff",
                 "shasum": ""
             },
             "require": {
@@ -1581,7 +1581,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-03-05 22:05:56"
+            "time": "2013-03-05 22:31:20"
         },
         {
             "name": "jms/serializer-bundle",
@@ -1656,7 +1656,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/KnpLabs/KnpMenu.git",
+                "url": "http://github.com/KnpLabs/KnpMenu.git",
                 "reference": "730bc37232f5f813822acf80edfbd89381ea5971"
             },
             "dist": {
@@ -1699,7 +1699,7 @@
                     "email": "stof@notk.org"
                 },
                 {
-                    "name": "Knplabs",
+                    "name": "KnpLabs",
                     "homepage": "http://knplabs.com"
                 },
                 {
@@ -1721,7 +1721,7 @@
             "target-dir": "Knp/Bundle/MenuBundle",
             "source": {
                 "type": "git",
-                "url": "https://github.com/KnpLabs/KnpMenuBundle.git",
+                "url": "http://github.com/KnpLabs/KnpMenuBundle.git",
                 "reference": "bfaa9f1a74ee590c5e6460a3139b268fce1f1885"
             },
             "dist": {
@@ -1850,7 +1850,7 @@
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/1.2.1",
+                "url": "https://github.com/Seldaek/monolog/zipball/1.2.1",
                 "reference": "1.2.1",
                 "shasum": ""
             },
@@ -1894,7 +1894,7 @@
                 "log",
                 "logging"
             ],
-            "time": "2012-08-29 11:53:20"
+            "time": "2012-08-29 04:53:20"
         },
         {
             "name": "pagerfanta/pagerfanta",
@@ -2113,7 +2113,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-file-iterator.git",
+                "url": "git://github.com/sebastianbergmann/php-file-iterator.git",
                 "reference": "2deb24c65ea78e126daa8d45b2089ddc29ec1d26"
             },
             "dist": {
@@ -2158,7 +2158,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-text-template.git",
+                "url": "git://github.com/sebastianbergmann/php-text-template.git",
                 "reference": "1eeef106193d2f8c539728e566bb4793071a9e18"
             },
             "dist": {
@@ -2202,7 +2202,7 @@
             "version": "1.0.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-timer.git",
+                "url": "git://github.com/sebastianbergmann/php-timer.git",
                 "reference": "ecf7920b27003a9412b07dad79dbb5ad1249e6c3"
             },
             "dist": {
@@ -2246,7 +2246,7 @@
             "version": "dev-master",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/php-token-stream.git",
+                "url": "git://github.com/sebastianbergmann/php-token-stream.git",
                 "reference": "c25dd88e1592e66dee2553c99ef244203d5a1b98"
             },
             "dist": {
@@ -2362,7 +2362,7 @@
             "version": "1.2.x-dev",
             "source": {
                 "type": "git",
-                "url": "https://github.com/sebastianbergmann/phpunit-mock-objects.git",
+                "url": "git://github.com/sebastianbergmann/phpunit-mock-objects.git",
                 "reference": "d49b5683200b5db9b1c64cb06f52f50d147891c4"
             },
             "dist": {
@@ -2924,6 +2924,48 @@
             "time": "2013-03-01 10:39:52"
         },
         {
+            "name": "themattharris/tmhoauth",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/themattharris/tmhOAuth.git",
+                "reference": "0.7.5"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/themattharris/tmhOAuth/zipball/0.7.5",
+                "reference": "0.7.5",
+                "shasum": ""
+            },
+            "require": {
+                "ext-curl": "*",
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "tmhOAuth": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "themattharris",
+                    "email": "matt@themattharris.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "An OAuth 1.0A library written in PHP by @themattharris, specifically for use with the Twitter API",
+            "keywords": [
+                "oauth",
+                "twitter"
+            ],
+            "time": "2013-02-20 15:57:52"
+        },
+        {
             "name": "twig/extensions",
             "version": "dev-master",
             "source": {
@@ -3089,6 +3131,7 @@
         "cedriclombardot/twig-generator": 20,
         "cedriclombardot/admingenerator-user-bundle": 20,
         "white-october/pagerfanta-bundle": 20,
-        "facebook/php-sdk": 20
+        "facebook/php-sdk": 20,
+        "themattharris/tmhoauth": 20
     }
 }

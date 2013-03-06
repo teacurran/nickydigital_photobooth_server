@@ -33,7 +33,7 @@ class TwitterShare
 	private $photo;
 
 	/**
-	 * @ORM\Column(type="string", length=100)
+	 * @ORM\Column(type="string", length=100, nullable=true)
 	 */
 	protected $username;
 
@@ -41,6 +41,11 @@ class TwitterShare
 	 * @ORM\Column(type="string", length=200)
 	 */
 	protected $oauthToken;
+
+	/**
+	 * @ORM\Column(type="string", length=200)
+	 */
+	protected $oauthSecret;
 
 	/**
 	 * @ORM\Column(type="string", length=140)
@@ -186,4 +191,16 @@ class TwitterShare
     {
         return $this->account;
     }
+
+	public function setOauthSecret($oauthSecret)
+	{
+		$this->oauthSecret = $oauthSecret;
+	}
+
+	public function getOauthSecret()
+	{
+		return $this->oauthSecret;
+	}
+
+	
 }

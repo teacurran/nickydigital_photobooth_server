@@ -8,6 +8,7 @@ use NickyDigital\PhotoboothBundle\Entity\Email;
 use NickyDigital\PhotoboothBundle\Entity\FacebookShare;
 use NickyDigital\PhotoboothBundle\Entity\Photo;
 use NickyDigital\PhotoboothBundle\Entity\PhotoEvent;
+use NickyDigital\PhotoboothBundle\Entity\TwitterShare;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -20,6 +21,9 @@ use FOS\RestBundle\View\View;
 use Symfony\Component\Finder\Finder;
 use Doctrine\ORM\EntityManager;
 use NickyDigital\PhotoboothBundle\Util\ResizedImage;
+
+use tmhOAuth;
+use tmhUtilities;
 
 /**
  * User: T. Curran
@@ -235,7 +239,7 @@ class ApiController extends FOSRestController
 		$body = $request->request->get("body");
 
 		if ($body == "") {
-			$body = $event->getAlbumName();
+			$body = $event->getLongShareText();
 		}
 
 		$query = $this->em->createQuery('SELECT p FROM NickyDigital\PhotoboothBundle\Entity\Photo p WHERE p.event=:event AND p.filename=:filename');
@@ -272,13 +276,70 @@ class ApiController extends FOSRestController
 		return array("status" => "success");
 	}
 
+	/**
+	 * @Route("/twittershare", name="api_twitter")
+	 * @Method({"POST"})
+	 */
+	public function twittershareAction(Request $request)
+	{
 
+		$event = $this->getCurrentEvent();
+		
+		$email = $request->request->get("email");
+		$token = $request->request->get("token");
+		$tokensecret = $request->request->get("tokensecret");
+		$filename = $request->request->get("filename");
+		$body = $request->request->get("body");
+
+		if ($body == "") {
+			$body = $event->getShortShareText();
+		}
+
+		$query = $this->em->createQuery('SELECT p FROM NickyDigital\PhotoboothBundle\Entity\Photo p WHERE p.event=:event AND p.filename=:filename');
+		$query->setParameter("event", $event);
+		$query->setParameter("filename", $filename);
+		$photos = $query->getResult();
+
+		
+		if (count($photos) > 0) {
+			$photo = $photos[0];
+		} else {
+			$photo = new Photo();
+			$photo->setFilename($filename);
+			$photo->setEvent($event);
+			$photo->setDeleted(false);
+			$photo->setMissing(false);
+			$this->em->persist($photo);
+			$this->em->flush();
+		}
+		
+		
+		$share = new TwitterShare();
+		// TODO: get their actual username or drop this field.
+		
+		$share->setUsername("username");
+		$share->setOauthToken($token);
+		$share->setOauthSecret($tokensecret);
+		$share->setPhoto($photo);
+		$share->setShareText($body);
+		$share->setStatus("queue");
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+		$this->em->persist($share);
+		$this->em->flush();
+
+		return array("status" => "success");
+	}
+
+	
 	/**
 	 * @Route("/processuploads", name="api_processuploads")
 	 * @Method({"GET"})
 	 */
 	public function processuploadsAction(Request $request)
 	{
+		$logger = $this->get('logger');
+
 		$this->em = $this->get('doctrine.orm.entity_manager');
 
 		$event = $this->getCurrentEvent();
@@ -323,9 +384,8 @@ class ApiController extends FOSRestController
 					'message' => $upload->getBody()
 				);
 
-				$file='app.jpg'; //Example image file
 				$photo_details['image'] = '@' . $this->getPhotoDir($event) . "/" . $upload->getPhoto()->getFilename();
-				  
+  
 				$upload_photo = $this->facebook->api('/'.$album_uid.'/photos', 'post', $photo_details);
 
 				$upload->setStatus("complete");
@@ -334,6 +394,53 @@ class ApiController extends FOSRestController
 			} 
 		}
 
+		// Process Twitter uploads
+		$query = $this->em->createQuery('SELECT s FROM NickyDigital\PhotoboothBundle\Entity\TwitterShare s WHERE s.status=:status');
+		$query->setParameter("status", "queue");
+		$query->setMaxResults(2);
+		$uploads = $query->getResult();
+
+		if (count($uploads) > 0) {
+			foreach($uploads as $upload) {
+				$upload->setStatus("uploading");
+				$this->em->persist($upload);
+				$this->em->flush();
+
+				$tmhOAuth = new tmhOAuth(array(
+						 'consumer_key'    => "MsXMqyi2TzVipDTA6vpvw",
+						 'consumer_secret' => "P9quxz9SXZY3wtr3f258zQPl7XDmhh4zsh4DlKpc",
+						 'user_token'      => $upload->getOauthToken(),
+						 'user_secret'     => $upload->getOauthSecret(),
+				));
+		
+				$image = $this->getPhotoDir($event) . "/" . $upload->getPhoto()->getFilename();
+			
+				$code = $tmhOAuth->request( 'POST','https://upload.twitter.com/1/statuses/update_with_media.json',
+				   array(
+						'media[]'  => "@{$image};type=image/jpeg;filename={$upload->getPhoto()->getFilename()}",
+						'status'   => $upload->getShareText(),
+				   ),
+					true, // use auth
+					true  // multipart
+				);
+			
+				if ($code == 200){
+					$upload->setStatus("complete");
+				}else{
+					$upload->setStatus("failed");
+					
+					$logger->err($tmhOAuth->response['response']);
+				}
+				$this->em->persist($upload);
+				$this->em->flush();
+			}
+		}
+		
+		
+		
+		
+		
+		
 		return array("status" => "success");
 	}
 
