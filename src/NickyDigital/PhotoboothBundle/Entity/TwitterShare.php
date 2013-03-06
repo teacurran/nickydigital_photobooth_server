@@ -52,7 +52,6 @@ class TwitterShare
 	 */
 	protected $shareText;
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @var created $created
 	 *
@@ -61,7 +60,6 @@ class TwitterShare
 	 */
 	protected $created;
 
-	// TODO: figure out why Timestampable isn't populating
 	/**
 	 * @var dateSent $updated
 	 *
@@ -73,6 +71,12 @@ class TwitterShare
 	 * @ORM\Column(type="string", length=200, nullable=true)
 	 */
 	protected $status;
+
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $serverResponse;
+
 
 	public function setCreated($created)
 	{
@@ -200,6 +204,16 @@ class TwitterShare
 	public function getOauthSecret()
 	{
 		return $this->oauthSecret;
+	}
+
+	public function setServerResponse($serverResponse)
+	{
+		$this->serverResponse = $serverResponse;
+	}
+
+	public function getServerResponse()
+	{
+		return $this->serverResponse;
 	}
 
 	

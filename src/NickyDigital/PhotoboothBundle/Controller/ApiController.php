@@ -42,6 +42,9 @@ class ApiController extends FOSRestController
 	protected $em;
 
 	protected $facebook;
+	
+	protected $twitter_width = 1024;
+	protected $facebook_width = 1024;
 
 	public function __construct() {
 		$this->facebook = new Facebook(array(
@@ -156,6 +159,7 @@ class ApiController extends FOSRestController
 	 */
 	public function photoAction($width, $filename)
 	{
+
 		if ($width != "original") {
 			if (!is_numeric($width)) {
 				throw $this->createNotFoundException('Width must be a number');
@@ -352,12 +356,11 @@ class ApiController extends FOSRestController
 
 		if (count($uploads) > 0) {
 			foreach($uploads as $upload) {
-				$width=1024;
 				$filename = $upload->getPhoto()->getFilename();
 				$filesDir = $this->getPhotoDir($event);
 
 				$originalFilename = $filesDir . "/" . $filename;
-				$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $width;
+				$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->facebook_width;
 				$sizedFilename = $sizedFileDir . "/" . $filename;
 
 				if (!file_exists($sizedFilename)) {
@@ -368,7 +371,7 @@ class ApiController extends FOSRestController
 
 					$resizedImage = new ResizedImage();
 					$resizedImage->load($originalFilename);
-					$resizedImage->resizeToWidth($width);
+					$resizedImage->resizeToWidth($this->facebook_width);
 					$resizedImage->save($sizedFilename);
 				}
 
@@ -424,12 +427,11 @@ class ApiController extends FOSRestController
 		if (count($uploads) > 0) {
 			foreach($uploads as $upload) {
 
-				$width=1024;
 				$filename = $upload->getPhoto()->getFilename();
 				$filesDir = $this->getPhotoDir($event);
 
 				$originalFilename = $filesDir . "/" . $filename;
-				$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $width;
+				$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->twitter_width;
 				$sizedFilename = $sizedFileDir . "/" . $filename;
 
 				if (!file_exists($sizedFilename)) {
@@ -440,7 +442,7 @@ class ApiController extends FOSRestController
 
 					$resizedImage = new ResizedImage();
 					$resizedImage->load($originalFilename);
-					$resizedImage->resizeToWidth($width);
+					$resizedImage->resizeToWidth($this->twitter_width);
 					$resizedImage->save($sizedFilename);
 				}
 
@@ -467,16 +469,14 @@ class ApiController extends FOSRestController
 					true  // multipart
 				);
 			
+				$upload->setServerResponse($tmhOAuth->response['raw']);
+
 				if ($code == 200){
 					$upload->setStatus("complete");
 				}else{
 					$upload->setStatus("failed");
-					
+
 					$logger->err($tmhOAuth->response['response']);
-			
-					$this->em->persist($upload);
-					$this->em->flush();
-					return $tmhOAuth->response['raw'];
 				}
 				$this->em->persist($upload);
 				$this->em->flush();
@@ -485,63 +485,6 @@ class ApiController extends FOSRestController
 		
 		
 		return array("status" => "success");
-	}
-
-	/**
-	 * @Route("/processtwitteruploads", name="api_processtwitteruploads")
-	 * @Method({"GET"})
-	 */
-	public function processtwitteruploadsAction(Request $request)
-	{
-		$logger = $this->get('logger');
-
-		$this->em = $this->get('doctrine.orm.entity_manager');
-
-		$event = $this->getCurrentEvent();
-
-		// Process Twitter uploads
-		$query = $this->em->createQuery('SELECT s FROM NickyDigital\PhotoboothBundle\Entity\TwitterShare s WHERE s.status=:status');
-		$query->setParameter("status", "queue");
-		$query->setMaxResults(2);
-		$uploads = $query->getResult();
-
-		if (count($uploads) > 0) {
-			foreach($uploads as $upload) {
-				$upload->setStatus("uploading");
-				$this->em->persist($upload);
-				$this->em->flush();
-
-				$tmhOAuth = new tmhOAuth(array(
-						 'consumer_key'    => "MsXMqyi2TzVipDTA6vpvw",
-						 'consumer_secret' => "P9quxz9SXZY3wtr3f258zQPl7XDmhh4zsh4DlKpc",
-						 'user_token'      => $upload->getOauthToken(),
-						 'user_secret'     => $upload->getOauthSecret(),
-				));
-		
-				$image = $this->getPhotoDir($event) . "/" . $upload->getPhoto()->getFilename();
-			
-				$code = $tmhOAuth->request( 'POST','https://upload.twitter.com/1/statuses/update_with_media.json',
-				   array(
-						'media[]'  => "@{$image};type=image/jpeg;filename={$upload->getPhoto()->getFilename()}",
-						'status'   => $upload->getShareText(),
-				   ),
-					true, // use auth
-					true  // multipart
-				);
-			
-				if ($code == 200){
-					$upload->setStatus("complete");
-				}else{
-					$upload->setStatus("failed");
-					
-					$logger->err($tmhOAuth->response['response']);
-
-					return $tmhOAuth->response['response'];
-				}
-				$this->em->persist($upload);
-			}
-		}
-
 	}
 
 	private function getPhotoDir(PhotoEvent $event)

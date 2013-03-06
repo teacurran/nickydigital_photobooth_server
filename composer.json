@@ -33,6 +33,7 @@
 		"cedriclombardot/admingenerator-generator-bundle": "dev-master",
 		"cedriclombardot/twig-generator": "dev-master",
 		"cedriclombardot/admingenerator-user-bundle": "dev-master",
+		"cedriclombardot/admingenerator-activeadmintheme-bundle": "dev-master",
 		"white-october/pagerfanta-bundle": "dev-master",
 		"facebook/php-sdk": "dev-master",
 		"themattharris/tmhoauth": "dev-master"

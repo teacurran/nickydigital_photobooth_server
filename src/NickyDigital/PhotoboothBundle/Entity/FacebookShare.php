@@ -72,6 +72,11 @@ class FacebookShare
 	/**
 	 * @ORM\Column(type="text", nullable=true)
 	 */
+	protected $serverResponse;
+
+	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
 	protected $body;
 
 	public function setBody($body)
@@ -200,4 +205,16 @@ class FacebookShare
     {
         return $this->account;
     }
+
+	public function setServerResponse($serverResponse)
+	{
+		$this->serverResponse = $serverResponse;
+	}
+
+	public function getServerResponse()
+	{
+		return $this->serverResponse;
+	}
+
+	
 }

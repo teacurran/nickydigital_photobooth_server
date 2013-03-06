@@ -4,7 +4,7 @@ imports:
 
 framework:
     #esi:             ~
-    #translator:      { fallback: "%locale%" }
+    translator:      { fallback: en }
     secret:          "%secret%"
     router:
         resource: "%kernel.root_dir%/config/routing.yml"
@@ -97,14 +97,27 @@ knp_menu:
     twig:
         template: AdmingeneratorGeneratorBundle:KnpMenu:knp_menu_trans.html.twig
 
+knp_menu:
+    twig: true
+
 admingenerator_generator:
+    base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
+    knp_menu_class: NickyDigital\PhotoboothAdminBundle\Menu\AdminMenu
+    use_doctrine_orm: true
+    #use_doctrine_odm: true
+    #use_propel: true
+    #base_admin_template: AdmingeneratorActiveAdminThemeBundle::base_admin_assetic_less.html.twig
+    #templates_dirs: [ %kernel.root_dir%/../vendor/cedriclombardot/admingenerator-oldtheme-bundle/Admingenerator/OldThemeBundle/Resources/templates ]
+
+
+#admingenerator_generator:
     # choose and uncomment only one
     #    base_admin_template: AdmingeneratorGeneratorBundle::base_admin.html.twig
-    base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
+#    base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
     # choose only one
     #use_propel:           false
     #use_doctrine_odm:     false
-    use_doctrine_orm:     true
+#    use_doctrine_orm:     true
 
 fos_user:
     service:

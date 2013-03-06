@@ -1,6 +1,45 @@
 {
-    "hash": "1e60afa3380004acb3223bad4efb81b4",
+    "hash": "5b7f8d66772a75681da38e0eda496d7f",
     "packages": [
+        {
+            "name": "cedriclombardot/admingenerator-activeadmintheme-bundle",
+            "version": "dev-master",
+            "target-dir": "Admingenerator/ActiveAdminThemeBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony2admingenerator/AdmingeneratorActiveAdminThemeBundle.git",
+                "reference": "ae4f837600734b837a1104ec2d29aca82f0186e9"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorActiveAdminThemeBundle/zipball/ae4f837600734b837a1104ec2d29aca82f0186e9",
+                "reference": "ae4f837600734b837a1104ec2d29aca82f0186e9",
+                "shasum": ""
+            },
+            "require": {
+                "cedriclombardot/admingenerator-generator-bundle": "*",
+                "cedriclombardot/admingenerator-oldtheme-bundle": "*"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Admingenerator\\ActiveAdminThemeBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cedric LOMBARDOT",
+                    "email": "cedric.lombardot@gmail.com"
+                }
+            ],
+            "description": "The rails admin theme for the symfony2 generator",
+            "homepage": "http://symfony2admingenerator.org/",
+            "time": "2012-10-12 18:16:14"
+        },
         {
             "name": "cedriclombardot/admingenerator-generator-bundle",
             "version": "dev-master",
@@ -65,6 +104,53 @@
                 "yaml"
             ],
             "time": "2013-03-05 22:48:05"
+        },
+        {
+            "name": "cedriclombardot/admingenerator-oldtheme-bundle",
+            "version": "dev-master",
+            "target-dir": "Admingenerator/OldThemeBundle",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony2admingenerator/AdmingeneratorOldThemeBundle.git",
+                "reference": "4cfd686bc6d184c9414741756d685f38a238056c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorOldThemeBundle/zipball/4cfd686bc6d184c9414741756d685f38a238056c",
+                "reference": "4cfd686bc6d184c9414741756d685f38a238056c",
+                "shasum": ""
+            },
+            "require": {
+                "cedriclombardot/admingenerator-generator-bundle": "*"
+            },
+            "suggest": {
+                "cedriclombardot/admingenerator-activeadmintheme-bundle": "The rails admin theme"
+            },
+            "type": "symfony-bundle",
+            "autoload": {
+                "psr-0": {
+                    "Admingenerator\\OldThemeBundle": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Cedric LOMBARDOT",
+                    "email": "cedric.lombardot@gmail.com"
+                }
+            ],
+            "description": "This bundle is the old theme for cedriclombardot/admingenerator-generator-bundle",
+            "homepage": "http://symfony2admingenerator.org/",
+            "keywords": [
+                "admin",
+                "generator",
+                "theme",
+                "yaml"
+            ],
+            "time": "2013-01-17 16:37:06"
         },
         {
             "name": "cedriclombardot/admingenerator-user-bundle",
@@ -1522,12 +1608,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/schmittjoh/serializer.git",
-                "reference": "778542ba8b82e5a530af6580eb2588de7ce2c3ff"
+                "reference": "ef8f4ec9cb33d16006c405700ebce00f757d1bf9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/778542ba8b82e5a530af6580eb2588de7ce2c3ff",
-                "reference": "778542ba8b82e5a530af6580eb2588de7ce2c3ff",
+                "url": "https://api.github.com/repos/schmittjoh/serializer/zipball/ef8f4ec9cb33d16006c405700ebce00f757d1bf9",
+                "reference": "ef8f4ec9cb33d16006c405700ebce00f757d1bf9",
                 "shasum": ""
             },
             "require": {
@@ -1568,7 +1654,7 @@
                 {
                     "name": "Johannes M. Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1581,7 +1667,7 @@
                 "serialization",
                 "xml"
             ],
-            "time": "2013-03-05 22:31:20"
+            "time": "2013-03-06 19:15:02"
         },
         {
             "name": "jms/serializer-bundle",
@@ -2841,12 +2927,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/symfony.git",
-                "reference": "0e7b5fb3bb928cd99efbc7ac0d41f209a7f1c6e8"
+                "reference": "7241be9b641acff08aad294d57a209b901ff6b21"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/symfony/zipball/0e7b5fb3bb928cd99efbc7ac0d41f209a7f1c6e8",
-                "reference": "0e7b5fb3bb928cd99efbc7ac0d41f209a7f1c6e8",
+                "url": "https://api.github.com/repos/symfony/symfony/zipball/7241be9b641acff08aad294d57a209b901ff6b21",
+                "reference": "7241be9b641acff08aad294d57a209b901ff6b21",
                 "shasum": ""
             },
             "require": {
@@ -2921,7 +3007,7 @@
             "keywords": [
                 "framework"
             ],
-            "time": "2013-03-01 10:39:52"
+            "time": "2013-03-06 19:26:55"
         },
         {
             "name": "themattharris/tmhoauth",
@@ -3130,6 +3216,7 @@
         "cedriclombardot/admingenerator-generator-bundle": 20,
         "cedriclombardot/twig-generator": 20,
         "cedriclombardot/admingenerator-user-bundle": 20,
+        "cedriclombardot/admingenerator-activeadmintheme-bundle": 20,
         "white-october/pagerfanta-bundle": 20,
         "facebook/php-sdk": 20,
         "themattharris/tmhoauth": 20

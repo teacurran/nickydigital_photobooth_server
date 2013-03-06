@@ -53,6 +53,11 @@ class EmailShare
 	protected $body;
 
 	/**
+	 * @ORM\Column(type="text", nullable=true)
+	 */
+	protected $serverResponse;
+
+	/**
 	 * @var created $created
 	 *
 	 * @Gedmo\Timestampable(on="create")
@@ -226,4 +231,16 @@ class EmailShare
     {
         return $this->account;
     }
+
+	public function setServerResponse($serverResponse)
+	{
+		$this->serverResponse = $serverResponse;
+	}
+
+	public function getServerResponse()
+	{
+		return $this->serverResponse;
+	}
+	
+	
 }
