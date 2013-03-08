@@ -43,6 +43,8 @@ class ApiController extends FOSRestController
 
 	protected $facebook;
 	
+	protected $thumb_width = 300;
+	protected $detail_width = 640;
 	protected $twitter_width = 1024;
 	protected $facebook_width = 1024;
 
@@ -120,35 +122,71 @@ class ApiController extends FOSRestController
 
 		$finder->files()->in($filesDir);
 
+		$imagesGenerated = 0;
+		$thumbFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->thumb_width;
+		$detailFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->detail_width;
+		
 		$i = 0;
 		foreach ($finder as $file) {
 			$filename = $file->getFilename();
 
+			// TODO: why is true here? were the strpos not working?
 			if (true || strpos($filename, '.gif', 1) || strpos($filename, '.jpg', 1)) {
-				$i++;
-				$photo = array();
-				$photo['filename'] = $filename;
 
-				array_push($photoListArray, $photo);
+				$originalFilename = $filesDir . "/" . $filename;
+				$thumbFilename = $thumbFileDir . "/" . $filename;
+				$detailFilename = $detailFileDir . "/" . $filename;
+		
+				// Generate a thumbnail
+				if (!file_exists($thumbFilename) && $imagesGenerated < 1) {
+		
+					if (!$this->rmkdir($thumbFileDir)) {
+						die('Failed to create folders');
+					}
+		
+					$resizedImage = new ResizedImage();
+					$resizedImage->load($originalFilename);
+					$resizedImage->resizeToWidth($this->thumb_width);
+					$resizedImage->save($thumbFilename);
+					$imagesGenerated++;
+				}
+
+				// Only tell the client about the photo after a thumb has been created.
+				if (file_exists($thumbFilename)) {
+					$i++;
+					$photo = array();
+					$photo['filename'] = $filename;
+	
+					array_push($photoListArray, $photo);
+				}
 			}
 		}
 
-
-//		$dir = opendir(__DIR__ . "/_public/photos");
-//		$i = 0;
-//		while (false !== ($file = readdir($dir))) {
-//			if (strpos($file, '.gif', 1) || strpos($file, '.jpg', 1)) {
-//				$i++;
-//				$photo = new Photo();
-//				$photo->filename = $file;
-//				$photo->id = $i;
-//	
-//				array_push($photoListArray, $photo);
-//			}
-//		}
-//	
-//		return json_encode($photoListArray);
-
+		// THis is slowing things down
+		// loop again if we are generate detail views if we don't have any thumbs to generate;
+		//if ($imagesGenerated < 1) {
+		//	foreach ($finder as $file) {
+		//		$filename = $file->getFilename();
+		//
+		//		$originalFilename = $filesDir . "/" . $filename;
+		//		$thumbFilename = $thumbFileDir . "/" . $filename;
+		//		$detailFilename = $detailFileDir . "/" . $filename;
+		//
+		//		// Generate a detail sized image
+		//		if (!file_exists($detailFilename) && $imagesGenerated < 1) {
+		//
+		//			if (!$this->rmkdir($thumbFileDir)) {
+		//				die('Failed to create folders');
+		//			}
+		//
+		//			$resizedImage = new ResizedImage();
+		//			$resizedImage->load($originalFilename);
+		//			$resizedImage->resizeToWidth($this->detail_width);
+		//			$resizedImage->save($detailFilename);
+		//			$imagesGenerated++;
+		//		}
+		//	}
+		//}
 
 		return $photoListArray;
 	}
