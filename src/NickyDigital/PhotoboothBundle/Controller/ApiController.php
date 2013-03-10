@@ -497,11 +497,17 @@ class ApiController extends FOSRestController
 		
 				$image = $this->getPhotoDir($event) . "/" . $upload->getPhoto()->getFilename();
 			
+				$tweetText = $upload->getShareText();
+				
+				if (substr($tweetText, 0, 1) == "@") {
+					$tweetText = " " . $tweetText;
+				}
+
 				//$code = $tmhOAuth->request( 'POST','https://upload.twitter.com/1/statuses/update_with_media.json',
 				$code = $tmhOAuth->request( 'POST','https://api.twitter.com/1.1/statuses/update_with_media.json',
 				   array(
 						'media[]'  => "@{$sizedFilename};type=image/jpeg;filename={$upload->getPhoto()->getFilename()}",
-						'status'   => $upload->getShareText(),
+						'status'   => $tweetText,
 				   ),
 					true, // use auth
 					true  // multipart
