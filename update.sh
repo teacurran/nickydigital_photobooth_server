@@ -6,5 +6,6 @@ php app/console doctrine:schema:update --force
 
 php app/console assets:install web --symlink
 
-php app/console cache:clear
+#php app/console cache:clear
 
+rm -rdf app/cache/dev

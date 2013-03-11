@@ -28,6 +28,11 @@ class EmailShare
 	private $account;
 
 	/**
+	 * @ORM\ManyToOne(targetEntity="Photo", inversedBy="twitterShares")
+	 */
+	private $photo;
+
+	/**
 	 * @ORM\Column(type="string", length=200)
 	 */
 	protected $emailFrom;
@@ -112,16 +117,6 @@ class EmailShare
 	public function getDateSent()
 	{
 		return $this->dateSent;
-	}
-
-	public function setEmailFromo($emailFromo)
-	{
-		$this->emailFromo = $emailFromo;
-	}
-
-	public function getEmailFromo()
-	{
-		return $this->emailFromo;
 	}
 
 	public function setEmailTo($emailTo)
@@ -241,6 +236,17 @@ class EmailShare
 	{
 		return $this->serverResponse;
 	}
+
+	public function setPhoto($photo)
+	{
+		$this->photo = $photo;
+	}
+
+	public function getPhoto()
+	{
+		return $this->photo;
+	}
+	
 	
 	
 }

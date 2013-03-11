@@ -5,6 +5,7 @@ namespace NickyDigital\PhotoboothBundle\Controller;
 use FOS\RestBundle\Controller\FOSRestController;
 use Facebook;
 use NickyDigital\PhotoboothBundle\Entity\Email;
+use NickyDigital\PhotoboothBundle\Entity\EmailShare;
 use NickyDigital\PhotoboothBundle\Entity\FacebookShare;
 use NickyDigital\PhotoboothBundle\Entity\Photo;
 use NickyDigital\PhotoboothBundle\Entity\PhotoEvent;
@@ -94,6 +95,7 @@ class ApiController extends FOSRestController
 			"album_name" => $event->getAlbumName(),
 			"short_share" => $event->getShortShareText(),
 			"long_share" => $event->getLongShareText(),
+			"email_share" => $event->getEmailShareText(),
 			"show_facebook" => $event->getShowFacebook(),
 			"show_twitter" => $event->getShowTwitter(),
 			"show_tumblr" => $event->getShowTumblr(),
@@ -373,6 +375,132 @@ class ApiController extends FOSRestController
 		return array("status" => "success");
 	}
 
+	/**
+	 * @Route("/emailshare", name="api_emailshare")
+	 * @Method({"POST"})
+	 */
+	public function emailshareAction(Request $request)
+	{
+
+		$event = $this->getCurrentEvent();
+		
+		$emailFrom = $request->request->get("email_from");
+		$emailTo = $request->request->get("email_to");
+		$emailBody = $request->request->get("email_body");
+		$filename = $request->request->get("filename");
+
+		if ($emailBody == "") {
+			$emailBody = $event->getEmailShareText();
+		}
+
+		$query = $this->em->createQuery('SELECT p FROM NickyDigital\PhotoboothBundle\Entity\Photo p WHERE p.event=:event AND p.filename=:filename');
+		$query->setParameter("event", $event);
+		$query->setParameter("filename", $filename);
+		$photos = $query->getResult();
+
+		if (count($photos) > 0) {
+			$photo = $photos[0];
+		} else {
+			$photo = new Photo();
+			$photo->setFilename($filename);
+			$photo->setEvent($event);
+			$photo->setDeleted(false);
+			$photo->setMissing(false);
+			$this->em->persist($photo);
+			$this->em->flush();
+		}
+		
+		$emailSubject = $event->getEmailShareSubject();
+		if ($emailSubject == null || $emailSubject == "") {
+			$emailSubject = "Photo from Nicky Digital";
+		}
+		
+		$share = new EmailShare();
+		$share->setSubject($emailSubject);
+		$share->setEmailFrom($emailFrom);
+		$share->setEmailTo($emailTo);
+		$share->setBody($emailBody);
+		$share->setPhoto($photo);
+		$share->setStatus("queue");
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+		$this->em->persist($share);
+		$this->em->flush();
+
+		return array("status" => "success");
+	}
+
+
+	/**
+	 * @Route("/processemails", name="api_processemails")
+	 * @Method({"GET"})
+	 */
+	public function processemailsAction(Request $request)
+	{
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+		$event = $this->getCurrentEvent();
+
+		$query = $this->em->createQuery('SELECT s FROM NickyDigital\PhotoboothBundle\Entity\EmailShare s WHERE s.status=:status');
+		$query->setParameter("status", "queue");
+		$query->setMaxResults(2);
+		$uploads = $query->getResult();
+
+		if (count($uploads) > 0) {
+			foreach($uploads as $upload) {
+				$upload->setStatus("uploading");
+				$this->em->persist($upload);
+				$this->em->flush();
+
+				$filename = $upload->getPhoto()->getFilename();
+				$filesDir = $this->getPhotoDir($event);
+
+				$originalFilename = $filesDir . "/" . $filename;
+				$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->facebook_width;
+				$sizedFilename = $sizedFileDir . "/" . $filename;
+
+				if (!file_exists($sizedFilename)) {
+	
+					if (!$this->rmkdir($sizedFileDir)) {
+						die('Failed to create folders');
+					}
+
+					$resizedImage = new ResizedImage();
+					$resizedImage->load($originalFilename);
+					$resizedImage->resizeToWidth($this->facebook_width);
+					$resizedImage->save($sizedFilename);
+				}
+
+				$ch = curl_init();
+				curl_setopt($ch, CURLOPT_HEADER, 0);
+				curl_setopt($ch, CURLOPT_VERBOSE, 0);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				curl_setopt($ch, CURLOPT_USERAGENT, "Mozilla/4.0 (compatible;)");
+				curl_setopt($ch, CURLOPT_URL, "http://wirelust.com/nickydigital/upload.php");
+				curl_setopt($ch, CURLOPT_POST, true);
+				// same as <input type="file" name="file_box">
+				$post = array(
+					"file"=>"@" . $sizedFilename,
+					"event"=>$event->getEventCode(),
+					"email_from"=>$upload->getEmailFrom(),
+					"email_to"=>$upload->getEmailTo(),
+					"email_body"=>$upload->getBody(),
+					"email_subject"=>$upload->getSubject(),
+				);
+				curl_setopt($ch, CURLOPT_POSTFIELDS, $post); 
+				$response = curl_exec($ch);
+
+				$upload->setServerResponse($response);
+				$upload->setStatus("complete");
+
+				$this->em->persist($upload);
+				$this->em->flush();
+			}
+		}
+		
+	
+		return array("status" => "success");
+	}
 	
 	/**
 	 * @Route("/processuploads", name="api_processuploads")
@@ -394,6 +522,10 @@ class ApiController extends FOSRestController
 
 		if (count($uploads) > 0) {
 			foreach($uploads as $upload) {
+				$upload->setStatus("uploading");
+				$this->em->persist($upload);
+				$this->em->flush();
+
 				$filename = $upload->getPhoto()->getFilename();
 				$filesDir = $this->getPhotoDir($event);
 
@@ -412,10 +544,6 @@ class ApiController extends FOSRestController
 					$resizedImage->resizeToWidth($this->facebook_width);
 					$resizedImage->save($sizedFilename);
 				}
-
-				$upload->setStatus("uploading");
-				$this->em->persist($upload);
-				$this->em->flush();
 
 				$this->facebook->setAccessToken($upload->getOauthToken());
 
@@ -526,7 +654,8 @@ class ApiController extends FOSRestController
 				$this->em->flush();
 			}
 		}
-		
+
+		$this->processemailsAction($request);
 		
 		return array("status" => "success");
 	}

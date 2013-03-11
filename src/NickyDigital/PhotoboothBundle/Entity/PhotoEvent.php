@@ -63,6 +63,11 @@ class PhotoEvent
 	protected $longShareText;
 
 	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	protected $emailShareSubject;
+
+	/**
 	 * @ORM\Column(type="text")
 	 */
 	protected $emailShareText;
@@ -396,6 +401,16 @@ class PhotoEvent
 	public function getAlbumDesc()
 	{
 		return $this->albumDesc;
+	}
+
+	public function setEmailShareSubject($emailShareSubject)
+	{
+		$this->emailShareSubject = $emailShareSubject;
+	}
+
+	public function getEmailShareSubject()
+	{
+		return $this->emailShareSubject;
 	}
 
 	
