@@ -84,6 +84,11 @@ class Account
 	protected $emailShares;
 
 	/**
+	 * @ORM\OneToMany(targetEntity="TumblrShare", mappedBy="account")
+	 */
+	protected $tumblrShares;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()

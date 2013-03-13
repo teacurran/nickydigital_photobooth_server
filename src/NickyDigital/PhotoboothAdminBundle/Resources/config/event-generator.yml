@@ -22,6 +22,10 @@ params:
       label: Email Share Subject
     emailShareText:
       label: Email Share Text
+    tumblrShareText:
+      label: Tumblr Share Text
+    tumblrTags:
+      label: Tumblr Tags
     current:
       label: Is Current
     showFacebook:
@@ -49,21 +53,21 @@ builders:
   new:
     params:
       title: New Event
-      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         save: ~
         list: ~
   show:
     params:
       title: "You're viewing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, current, showFacebook, showTwitter, showTumblr, showEmail ]
       actions:
         list: ~
         new: ~

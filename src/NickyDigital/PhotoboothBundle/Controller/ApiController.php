@@ -10,6 +10,7 @@ use NickyDigital\PhotoboothBundle\Entity\FacebookShare;
 use NickyDigital\PhotoboothBundle\Entity\Photo;
 use NickyDigital\PhotoboothBundle\Entity\PhotoEvent;
 use NickyDigital\PhotoboothBundle\Entity\TwitterShare;
+use NickyDigital\PhotoboothBundle\Entity\TumblrShare;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Method;
@@ -96,6 +97,7 @@ class ApiController extends FOSRestController
 			"short_share" => $event->getShortShareText(),
 			"long_share" => $event->getLongShareText(),
 			"email_share" => $event->getEmailShareText(),
+			"tumblr_share" => $event->getTumblrShareText(),
 			"show_facebook" => $event->getShowFacebook(),
 			"show_twitter" => $event->getShowTwitter(),
 			"show_tumblr" => $event->getShowTumblr(),
@@ -366,6 +368,63 @@ class ApiController extends FOSRestController
 		$share->setOauthSecret($tokensecret);
 		$share->setPhoto($photo);
 		$share->setShareText($body);
+		$share->setStatus("queue");
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+		$this->em->persist($share);
+		$this->em->flush();
+
+		return array("status" => "success");
+	}
+
+	/**
+	 * @Route("/tumblrshare", name="api_tumblrshare")
+	 * @Method({"POST"})
+	 */
+	public function tumblrshareAction(Request $request)
+	{
+
+		$event = $this->getCurrentEvent();
+		
+		$token = $request->request->get("token");
+		$tokensecret = $request->request->get("tokensecret");
+		$hostname = $request->request->get("hostname");
+		$username = $request->request->get("username");
+		$filename = $request->request->get("filename");
+		$body = $request->request->get("body");
+
+		if ($body == "") {
+			$body = $event->getShortShareText();
+		}
+
+		$query = $this->em->createQuery('SELECT p FROM NickyDigital\PhotoboothBundle\Entity\Photo p WHERE p.event=:event AND p.filename=:filename');
+		$query->setParameter("event", $event);
+		$query->setParameter("filename", $filename);
+		$photos = $query->getResult();
+
+		
+		if (count($photos) > 0) {
+			$photo = $photos[0];
+		} else {
+			$photo = new Photo();
+			$photo->setFilename($filename);
+			$photo->setEvent($event);
+			$photo->setDeleted(false);
+			$photo->setMissing(false);
+			$this->em->persist($photo);
+			$this->em->flush();
+		}
+		
+		
+		$share = new TumblrShare();
+		// TODO: get their actual username or drop this field.
+		
+		$share->setUsername($username);
+		$share->setHostname($hostname);
+		$share->setOauthToken($token);
+		$share->setOauthSecret($tokensecret);
+		$share->setPhoto($photo);
+		$share->setBody($body);
 		$share->setStatus("queue");
 
 		$this->em = $this->get('doctrine.orm.entity_manager');

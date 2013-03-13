@@ -73,6 +73,16 @@ class PhotoEvent
 	protected $emailShareText;
 
 	/**
+	 * @ORM\Column(type="text")
+	 */
+	protected $tumblrShareText;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $tumblrTags;
+
+	/**
 	 * @ORM\Column(type="boolean")
 	 */
 	protected $current = false;
@@ -411,6 +421,26 @@ class PhotoEvent
 	public function getEmailShareSubject()
 	{
 		return $this->emailShareSubject;
+	}
+
+	public function setTumblrShareText($tumblrShareText)
+	{
+		$this->tumblrShareText = $tumblrShareText;
+	}
+
+	public function getTumblrShareText()
+	{
+		return $this->tumblrShareText;
+	}
+
+	public function setTumblrTags($tumblrTags)
+	{
+		$this->tumblrTags = $tumblrTags;
+	}
+
+	public function getTumblrTags()
+	{
+		return $this->tumblrTags;
 	}
 
 	
