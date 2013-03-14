@@ -83,6 +83,11 @@ class PhotoEvent
 	protected $tumblrTags;
 
 	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $tumblrUrl;
+
+	/**
 	 * @ORM\Column(type="boolean")
 	 */
 	protected $current = false;
@@ -441,6 +446,16 @@ class PhotoEvent
 	public function getTumblrTags()
 	{
 		return $this->tumblrTags;
+	}
+
+	public function setTumblrUrl($tumblrUrl)
+	{
+		$this->tumblrUrl = $tumblrUrl;
+	}
+
+	public function getTumblrUrl()
+	{
+		return $this->tumblrUrl;
 	}
 
 	

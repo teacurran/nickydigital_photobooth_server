@@ -44,11 +44,13 @@ class ApiController extends FOSRestController
 	protected $em;
 
 	protected $facebook;
+	protected $event;
 	
 	protected $thumb_width = 300;
 	protected $detail_width = 640;
 	protected $twitter_width = 1024;
 	protected $facebook_width = 1024;
+	protected $tumblr_width = 1024;
 
 	public function __construct() {
 		$this->facebook = new Facebook(array(
@@ -652,6 +654,10 @@ class ApiController extends FOSRestController
 		if (count($uploads) > 0) {
 			foreach($uploads as $upload) {
 
+				$upload->setStatus("uploading");
+				$this->em->persist($upload);
+				$this->em->flush();
+
 				$filename = $upload->getPhoto()->getFilename();
 				$filesDir = $this->getPhotoDir($event);
 
@@ -670,10 +676,6 @@ class ApiController extends FOSRestController
 					$resizedImage->resizeToWidth($this->twitter_width);
 					$resizedImage->save($sizedFilename);
 				}
-
-				$upload->setStatus("uploading");
-				$this->em->persist($upload);
-				$this->em->flush();
 
 				$tmhOAuth = new tmhOAuth(array(
 						 'consumer_key'    => "MsXMqyi2TzVipDTA6vpvw",
@@ -715,9 +717,108 @@ class ApiController extends FOSRestController
 		}
 
 		$this->processemailsAction($request);
+		$this->processTumblrUploadsAction($request);
 		
 		return array("status" => "success");
 	}
+
+	/**
+	 * @Route("/processTumblrUploads", name="api_process_tumblr_uploads")
+	 * @Method({"GET"})
+	 */
+	public function processTumblrUploadsAction(Request $request)
+	{
+		$logger = $this->get('logger');
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+
+		$event = $this->getCurrentEvent();
+
+		$query = $this->em->createQuery('SELECT s FROM NickyDigital\PhotoboothBundle\Entity\TumblrShare s WHERE s.status=:status');
+		$query->setParameter("status", "queue");
+		$query->setMaxResults(2);
+		$uploads = $query->getResult();
+
+		if (count($uploads) > 0) {
+			foreach($uploads as $upload) {
+				$upload->setStatus("uploading");
+				$this->em->persist($upload);
+				$this->em->flush();
+
+				$filename = $upload->getPhoto()->getFilename();
+				$filesDir = $this->getPhotoDir($event);
+
+				$originalFilename = $filesDir . "/" . $filename;
+				$sizedFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->twitter_width;
+				$sizedFilename = $sizedFileDir . "/" . $filename;
+
+				if (!file_exists($sizedFilename)) {
+	
+					if (!$this->rmkdir($sizedFileDir)) {
+						die('Failed to create folders');
+					}
+
+					$resizedImage = new ResizedImage();
+					$resizedImage->load($originalFilename);
+					$resizedImage->resizeToWidth($this->twitter_width);
+					$resizedImage->save($sizedFilename);
+				}
+
+				$postUrl = "https://api.tumblr.com/v2/blog/{$upload->getHostname()}/post";
+
+				$tmhOAuth = new tmhOAuth(array(
+						 'host'            => $postUrl,
+						 'consumer_key'    => "tSISWrYGOOcg0L9HlAJuHxnqxIRmSZjD66mGUvqiyP47UT60cQ",
+						 'consumer_secret' => "87ALrtQs5HqMGvxKRLIMQYcRbIoFWSGJHAnDJX7yPqKhJtHP9I",
+						 'user_token'      => $upload->getOauthToken(),
+						 'user_secret'     => $upload->getOauthSecret(),
+				));
+		
+			
+				$postBody = $upload->getBody();
+				
+				if (substr($postBody, 0, 1) == "@") {
+					$postBody = " " . $postBody;
+				}
+
+				$dataArray = array(file_get_contents($sizedFilename));
+				$postData = array(
+							'data'		=> $dataArray,
+							'type'		=> 'photo',
+							'caption'   => $postBody,
+						);
+				if ($event->getTumblrTags() != "") {
+					$postData['tags'] = $event->getTumblrTags(); 
+				}
+				if ($event->getTumblrUrl() != "") {
+					$postData['source'] = $event->getTumblrUrl(); 
+				}
+				
+				$code = $tmhOAuth->request( 'POST', $postUrl,
+				   $postData,
+					true, // use auth
+					false  // multipart
+				);
+			
+				$upload->setServerResponse($tmhOAuth->response['raw']);
+
+				if ($code == 200){
+					$upload->setStatus("complete");
+				}else{
+					$upload->setStatus("failed");
+
+					$logger->err($tmhOAuth->response['response']);
+				}
+				$this->em->persist($upload);
+				$this->em->flush();
+
+
+			}
+		}
+
+		return array("status" => "success");
+	}
+
 
 	private function getPhotoDir(PhotoEvent $event)
 	{
@@ -773,6 +874,10 @@ class ApiController extends FOSRestController
 	}
 
 	function getCurrentEvent() {
+		if ($this->event != NULL) {
+			return $this->event;
+		}
+		
 		$this->em = $this->get('doctrine.orm.entity_manager');
 		
 		$query = $this->em->createQuery('SELECT e FROM NickyDigital\PhotoboothBundle\Entity\PhotoEvent e WHERE e.current=true');
@@ -785,6 +890,9 @@ class ApiController extends FOSRestController
 		$event = new PhotoEvent;
 		$event->setEventCode('default');
 		$event->setEventName('Default');
+		
+		$this->event = $event;
+
 		return $event;
 	}
 }
