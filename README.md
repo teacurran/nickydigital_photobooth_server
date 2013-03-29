@@ -7,8 +7,6 @@ Installation
 
 OSX
 ------------------------------
-Windows
-------------------------------
 
 1. install Github: http://github.com
 
