@@ -107,14 +107,14 @@ class ApiController extends FOSRestController
 			$facebookConsumerSecret = trim($event->getFacebookConsumerSecret());
 		}
 
-		$twitterConsumerKey = $this->defaultFacebookConsumerKey;
-		if (trim($event->getFacebookConsumerKey()) != "") {
-			$twitterConsumerKey = trim($event->getFacebookConsumerKey()); 
+		$twitterConsumerKey = $this->defaultTwitterConsumerKey;
+		if (trim($event->getTwitterConsumerKey()) != "") {
+			$twitterConsumerKey = trim($event->getTwitterConsumerKey()); 
 		}
 
-		$twitterConsumerSecret = $this->defaultFacebookConsumerSecret;
-		if (trim($event->getFacebookConsumerSecret()) != "") {
-			$twitterConsumerSecret = trim($event->getFacebookConsumerSecret()); 
+		$twitterConsumerSecret = $this->defaultTwitterConsumerSecret;
+		if (trim($event->getTwitterConsumerSecret()) != "") {
+			$twitterConsumerSecret = trim($event->getTwitterConsumerSecret()); 
 		}
 
 		$tumblrConsumerKey = $this->defaultTumblrConsumerKey;
@@ -127,6 +127,9 @@ class ApiController extends FOSRestController
 			$tumblrConsumerSecret = trim($event->getTumblrConsumerSecret());
 		}
 
+		// show facebook like disabled right now.
+		$event->setShowFacebookLike(false);
+		
 		return array(
 			"id" => $event->getId(),
 			"code" => $event->getEventCode(),
