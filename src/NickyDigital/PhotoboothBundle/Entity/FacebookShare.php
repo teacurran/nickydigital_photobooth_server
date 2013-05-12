@@ -79,6 +79,11 @@ class FacebookShare
 	 */
 	protected $body;
 
+	/**
+	 * @ORM\Column(type="boolean", nullable=true)
+	 */
+	protected $likeIncluded;
+
 	public function setBody($body)
 	{
 		$this->body = $body;
@@ -216,5 +221,14 @@ class FacebookShare
 		return $this->serverResponse;
 	}
 
-	
+	public function setLikeIncluded($likeIncluded)
+	{
+		$this->likeIncluded = $likeIncluded;
+	}
+
+	public function getLikeIncluded()
+	{
+		return $this->likeIncluded;
+	}
+
 }

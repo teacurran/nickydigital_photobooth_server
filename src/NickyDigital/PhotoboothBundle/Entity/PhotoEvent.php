@@ -113,6 +113,56 @@ class PhotoEvent
 	protected $showEmail = false;
 
 	/**
+	 * @ORM\Column(type="boolean", nullable=true)
+	 */
+	protected $showWaterfall = false;
+
+	/**
+	 * @ORM\Column(type="boolean", nullable=true)
+	 */
+	protected $showFacebookLike = false;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $facebookLikeText;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $facebookLikeUrl;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $facebookConsumerKey;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $facebookConsumerSecret;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $twitterConsumerKey;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $twitterConsumerSecret;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $tumblrConsumerKey;
+
+	/**
+	 * @ORM\Column(type="string", length=200, nullable=true)
+	 */
+	protected $tumblrConsumerSecret;
+
+	/**
 	 * @ORM\OneToMany(targetEntity="Photo", mappedBy="event")
 	 */
 	protected $photos;
@@ -126,6 +176,11 @@ class PhotoEvent
 	 * @ORM\Column(type="date", nullable=true)
 	 */
 	protected $eventDate;
+
+	/**
+	 * @ORM\Column(type="string", length=100, nullable=true)
+	 */
+	protected $thumbAspect;
 
 	// TODO: figure out why Timestampable isn't populating
 	/**
@@ -145,6 +200,11 @@ class PhotoEvent
 	 */
 	protected $updated;
 
+
+	
+	/* Auto Generated Below */
+	
+	
 	public function setAlbumName($albumName)
 	{
 		$this->albumName = $albumName;
@@ -456,6 +516,116 @@ class PhotoEvent
 	public function getTumblrUrl()
 	{
 		return $this->tumblrUrl;
+	}
+
+	public function setFacebookConsumerKey($facebookConsumerKey)
+	{
+		$this->facebookConsumerKey = $facebookConsumerKey;
+	}
+
+	public function getFacebookConsumerKey()
+	{
+		return $this->facebookConsumerKey;
+	}
+
+	public function setFacebookConsumerSecret($facebookConsumerSecret)
+	{
+		$this->facebookConsumerSecret = $facebookConsumerSecret;
+	}
+
+	public function getFacebookConsumerSecret()
+	{
+		return $this->facebookConsumerSecret;
+	}
+
+	public function setFacebookLikeText($facebookLikeText)
+	{
+		$this->facebookLikeText = $facebookLikeText;
+	}
+
+	public function getFacebookLikeText()
+	{
+		return $this->facebookLikeText;
+	}
+
+	public function setShowFacebookLike($showFacebookLike)
+	{
+		$this->showFacebookLike = $showFacebookLike;
+	}
+
+	public function getShowFacebookLike()
+	{
+		return $this->showFacebookLike;
+	}
+
+	public function setShowWaterfall($showWaterfall)
+	{
+		$this->showWaterfall = $showWaterfall;
+	}
+
+	public function getShowWaterfall()
+	{
+		return $this->showWaterfall;
+	}
+
+	public function setTumblrConsumerKey($tumblrConsumerKey)
+	{
+		$this->tumblrConsumerKey = $tumblrConsumerKey;
+	}
+
+	public function getTumblrConsumerKey()
+	{
+		return $this->tumblrConsumerKey;
+	}
+
+	public function setTumblrConsumerSecret($tumblrConsumerSecret)
+	{
+		$this->tumblrConsumerSecret = $tumblrConsumerSecret;
+	}
+
+	public function getTumblrConsumerSecret()
+	{
+		return $this->tumblrConsumerSecret;
+	}
+
+	public function setTwitterConsumerKey($twitterConsumerKey)
+	{
+		$this->twitterConsumerKey = $twitterConsumerKey;
+	}
+
+	public function getTwitterConsumerKey()
+	{
+		return $this->twitterConsumerKey;
+	}
+
+	public function setTwitterConsumerSecret($twitterConsumerSecret)
+	{
+		$this->twitterConsumerSecret = $twitterConsumerSecret;
+	}
+
+	public function getTwitterConsumerSecret()
+	{
+		return $this->twitterConsumerSecret;
+	}
+
+	public function setFacebookLikeUrl($facebookLikeUrl)
+	{
+		$this->facebookLikeUrl = $facebookLikeUrl;
+	}
+
+	public function getFacebookLikeUrl()
+	{
+		return $this->facebookLikeUrl;
+	}
+
+	public function setThumbAspect($thumbAspect)
+	{
+		$this->thumbAspect = $thumbAspect;
+	}
+
+	public function getThumbAspect()
+	{
+		return $this->thumbAspect;
 	}
 
 	

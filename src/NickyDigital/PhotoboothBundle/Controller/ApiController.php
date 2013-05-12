@@ -4,6 +4,8 @@ namespace NickyDigital\PhotoboothBundle\Controller;
 
 use FOS\RestBundle\Controller\FOSRestController;
 use Facebook;
+use FacebookApiException;
+use NickyDigital\PhotoboothBundle\Entity\Account;
 use NickyDigital\PhotoboothBundle\Entity\Email;
 use NickyDigital\PhotoboothBundle\Entity\EmailShare;
 use NickyDigital\PhotoboothBundle\Entity\FacebookShare;
@@ -52,11 +54,16 @@ class ApiController extends FOSRestController
 	protected $facebook_width = 1024;
 	protected $tumblr_width = 1024;
 
+	protected $defaultFacebookConsumerKey = '596065173744275';
+	protected $defaultFacebookConsumerSecret = '272dec3fa799dc5751205642ad90318a';
+
+	protected $defaultTwitterConsumerKey = 'MsXMqyi2TzVipDTA6vpvw';
+	protected $defaultTwitterConsumerSecret = 'P9quxz9SXZY3wtr3f258zQPl7XDmhh4zsh4DlKpc';
+
+	protected $defaultTumblrConsumerKey = 'tSISWrYGOOcg0L9HlAJuHxnqxIRmSZjD66mGUvqiyP47UT60cQ';
+	protected $defaultTumblrConsumerSecret = '87ALrtQs5HqMGvxKRLIMQYcRbIoFWSGJHAnDJX7yPqKhJtHP9I';
+
 	public function __construct() {
-		$this->facebook = new Facebook(array(
-		    'appId' => '596065173744275',
-		    'secret' => '272dec3fa799dc5751205642ad90318a',
-		));		
 	}
 	
 	
@@ -89,7 +96,37 @@ class ApiController extends FOSRestController
 		if (file_exists($bannerFile)) {
 			$bannerImage  = "/event/" . $event->getEventCode() . ".jpg";
 		}
-		
+
+		$facebookConsumerKey = $this->defaultFacebookConsumerKey;
+		if (trim($event->getFacebookConsumerKey()) != "") {
+			$facebookConsumerKey = trim($event->getFacebookConsumerKey());
+		}
+
+		$facebookConsumerSecret = $this->defaultFacebookConsumerSecret;
+		if (trim($event->getFacebookConsumerSecret()) != "") {
+			$facebookConsumerSecret = trim($event->getFacebookConsumerSecret());
+		}
+
+		$twitterConsumerKey = $this->defaultFacebookConsumerKey;
+		if (trim($event->getFacebookConsumerKey()) != "") {
+			$twitterConsumerKey = trim($event->getFacebookConsumerKey()); 
+		}
+
+		$twitterConsumerSecret = $this->defaultFacebookConsumerSecret;
+		if (trim($event->getFacebookConsumerSecret()) != "") {
+			$twitterConsumerSecret = trim($event->getFacebookConsumerSecret()); 
+		}
+
+		$tumblrConsumerKey = $this->defaultTumblrConsumerKey;
+		if (trim($event->getTumblrConsumerKey()) != "") {
+			$tumblrConsumerKey = trim($event->getTumblrConsumerKey());
+		}
+
+		$tumblrConsumerSecret = $this->defaultTumblrConsumerSecret;
+		if (trim($event->getTumblrConsumerSecret()) != "") {
+			$tumblrConsumerSecret = trim($event->getTumblrConsumerSecret());
+		}
+
 		return array(
 			"id" => $event->getId(),
 			"code" => $event->getEventCode(),
@@ -103,8 +140,20 @@ class ApiController extends FOSRestController
 			"show_facebook" => $event->getShowFacebook(),
 			"show_twitter" => $event->getShowTwitter(),
 			"show_tumblr" => $event->getShowTumblr(),
-			"show_email" => $event->getShowEmail()
+			"show_email" => $event->getShowEmail(),
+			"show_waterfall" => $event->getShowWaterfall(),
+			"show_facebook_like" => $event->getShowFacebookLike(),
+			"facebook_like_text" => $event->getFacebookLikeText(),
+			"facebook_like_url" => $event->getFacebookLikeUrl(),
+			"tumblr_consumer_key" => $tumblrConsumerKey,
+			"tumblr_consumer_secret" => $tumblrConsumerSecret,
+			"twitter_consumer_key" => $twitterConsumerKey,
+			"twiter_consumer_secret" => $twitterConsumerSecret,
+			"facebook_consumer_key" => $facebookConsumerKey,
+			"facebook_consumer_secret" => $facebookConsumerSecret,
+			"thumb_aspect" => $event->getThumbAspect()
 		);
+	
 	}
 
 	/**
@@ -126,11 +175,16 @@ class ApiController extends FOSRestController
 			die("Failed to create folders:" . $filesDir);
 		}
 
-		$finder->files()->in($filesDir);
+		$sort = function (\SplFileInfo $a, \SplFileInfo $b) {
+		    return $a->getMTime() > $b->getMTime();
+		};
+
+		$finder->files()->in($filesDir)->sort($sort);
 
 		$imagesGenerated = 0;
 		$thumbFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->thumb_width;
 		$detailFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->detail_width;
+		
 		
 		$i = 0;
 		foreach ($finder as $file) {
@@ -259,15 +313,18 @@ class ApiController extends FOSRestController
 	 */
 	public function emailcaptureAction(Request $request)
 	{
-		$email = new Email();
-		
-		$email->setEvent($this->getCurrentEvent());
-		$email->setEmail($request->request->get("email"));
-
-		$this->em = $this->get('doctrine.orm.entity_manager');
-
-		$this->em->persist($email);
-		$this->em->flush();
+		$emailAddress = trim($request->request->get("email"));
+		if ($emailAddress != "") {
+			$email = new Email();
+			
+			$email->setEvent($this->getCurrentEvent());
+			$email->setEmail($emailAddress);
+	
+			$this->em = $this->get('doctrine.orm.entity_manager');
+	
+			$this->em->persist($email);
+			$this->em->flush();
+		}
 
 		return array("status" => "success");
 	}
@@ -285,6 +342,7 @@ class ApiController extends FOSRestController
 		$token = $request->request->get("token");
 		$filename = $request->request->get("filename");
 		$body = $request->request->get("body");
+		$like = $request->request->get("like");
 
 		if ($body == "") {
 			$body = $event->getLongShareText();
@@ -317,6 +375,11 @@ class ApiController extends FOSRestController
 		$share->setStatus("queue");
 		$share->setOauthCode("");
 
+		$share->setLikeIncluded(false);
+		if ($like == "true") {
+			$share->setLikeIncluded(true);
+		}
+
 		$this->em = $this->get('doctrine.orm.entity_manager');
 		$this->em->persist($share);
 		$this->em->flush();
@@ -333,7 +396,6 @@ class ApiController extends FOSRestController
 
 		$event = $this->getCurrentEvent();
 		
-		$email = $request->request->get("email");
 		$token = $request->request->get("token");
 		$tokensecret = $request->request->get("tokensecret");
 		$filename = $request->request->get("filename");
@@ -570,6 +632,7 @@ class ApiController extends FOSRestController
 	public function processuploadsAction(Request $request)
 	{
 
+		
 		$logger = $this->get('logger');
 
 		$this->em = $this->get('doctrine.orm.entity_manager');
@@ -582,7 +645,26 @@ class ApiController extends FOSRestController
 		$uploads = $query->getResult();
 
 		if (count($uploads) > 0) {
+
+			$facebookConsumerKey = $this->defaultFacebookConsumerKey;
+			if (trim($event->getFacebookConsumerKey()) != "") {
+				$facebookConsumerKey = trim($event->getFacebookConsumerKey());
+			}
+
+			$facebookConsumerSecret = $this->defaultFacebookConsumerSecret;
+			if (trim($event->getFacebookConsumerSecret()) != "") {
+				$facebookConsumerSecret = trim($event->getFacebookConsumerSecret());
+			}
+
+			
 			foreach($uploads as $upload) {
+				
+				session_start();
+				$this->facebook = new Facebook(array(
+				    'appId' => $facebookConsumerKey,
+				    'secret' => $facebookConsumerSecret,
+				));		
+				
 				$upload->setStatus("uploading");
 				$this->em->persist($upload);
 				$this->em->flush();
@@ -642,8 +724,90 @@ class ApiController extends FOSRestController
 				$upload->setStatus("complete");
 				$this->em->persist($upload);
 				$this->em->flush();
+
+				$facebookId = $this->facebook->getUser();
+
+				if ($facebookId) {
+					
+					$facebookUser = $this->facebook->api('/me', 'GET');
+
+					if ($upload->getAccount() == null) {
+						$query = $this->em->createQuery('SELECT a FROM NickyDigital\PhotoboothBundle\Entity\Account a WHERE a.facebookId=:facebookId');
+						$query->setParameter("facebookId", $facebookId);
+						$accounts = $query->getResult();
+				
+						if (count($accounts) > 0) {
+							$account = $accounts[0];
+						} else {
+							$account = new Account();
+						}
+					} else {
+						$account = $upload->getAccount();
+					}
+					$account->setFacebookId($facebookId);
+					if (array_key_exists("name", $facebookUser)) {
+						$account->setName($facebookUser["name"]);
+					}
+					if (array_key_exists("gender", $facebookUser)) {
+						$account->setGender($facebookUser['gender']);
+					}
+					if (array_key_exists("location", $facebookUser)) {
+						$account->setLocation($facebookUser['location']['name']);
+					}
+					if (array_key_exists("birthday", $facebookUser)) {
+						$account->setBirthday($facebookUser['birthday']);
+					}
+					if (array_key_exists("username", $facebookUser)) {
+						$account->setFacebookUsername($facebookUser['username']);
+					}
+					if (array_key_exists("email", $facebookUser)) {
+						$account->setEmail($facebookUser['email']);
+						$upload->setEmail($facebookUser['email']);
+					}
+
+					$upload->setAccount($account);
+
+					$this->em->persist($upload);
+					$this->em->persist($account);
+					$this->em->flush();
+					
+					//$facebookShareCountQuery = $this->em->createQuery('SELECT COUNT(s.id) FROM NickyDigital\PhotoboothBundle\Entity\FacebookShare s WHERE s.account_id=:account_id');
+					//$facebookShareCountQuery->setParameter("account_id", $account->getId());
+					//$facebookShareCount = $facebookShareCountQuery->getSingleScalarResult();
+
+					if ($upload->getLikeIncluded() == true) {
+						//$this->facebook->api
+						
+						//https://graph.facebook.com/[User FB ID]/og.likes?object=OG_OBJECT_URL&access_token=USER_ACCESS_TOKEN
+						try {
+							$result = $this->facebook->api("/me/og.likes?" . "object=" . $event->getFacebookLikeUrl() . "&access_token=" . $upload->getOauthToken(), 'POST');
+						} catch (FacebookApiException $e) {
+							// do nothing, this is non critical
+						}
+					}
+				}
+
 			} 
 		}
+
+		$this->processTwitterUploadsAction($request);
+		$this->processemailsAction($request);
+		$this->processTumblrUploadsAction($request);
+		
+		return array("status" => "success");
+	}
+
+	/**
+	 * @Route("/processTwitterUploads", name="api_process_twitter_uploads")
+	 * @Method({"GET"})
+	 */
+	public function processTwitterUploadsAction(Request $request)
+	{
+		$logger = $this->get('logger');
+
+		$this->em = $this->get('doctrine.orm.entity_manager');
+
+		$event = $this->getCurrentEvent();
 
 		// Process Twitter uploads
 		$query = $this->em->createQuery('SELECT s FROM NickyDigital\PhotoboothBundle\Entity\TwitterShare s WHERE s.status=:status');
@@ -652,6 +816,17 @@ class ApiController extends FOSRestController
 		$uploads = $query->getResult();
 
 		if (count($uploads) > 0) {
+
+			$twitterConsumerKey = $this->defaultFacebookConsumerKey;
+			if (trim($event->getFacebookConsumerKey()) != "") {
+				$twitterConsumerKey = trim($event->getFacebookConsumerKey()); 
+			}
+
+			$twitterConsumerSecret = $this->defaultFacebookConsumerSecret;
+			if (trim($event->getFacebookConsumerSecret()) != "") {
+				$twitterConsumerSecret = trim($event->getFacebookConsumerSecret()); 
+			}
+
 			foreach($uploads as $upload) {
 
 				$upload->setStatus("uploading");
@@ -678,8 +853,8 @@ class ApiController extends FOSRestController
 				}
 
 				$tmhOAuth = new tmhOAuth(array(
-						 'consumer_key'    => "MsXMqyi2TzVipDTA6vpvw",
-						 'consumer_secret' => "P9quxz9SXZY3wtr3f258zQPl7XDmhh4zsh4DlKpc",
+						 'consumer_key'    => $twitterConsumerKey,
+						 'consumer_secret' => $twitterConsumerSecret,
 						 'user_token'      => $upload->getOauthToken(),
 						 'user_secret'     => $upload->getOauthSecret(),
 				));
@@ -689,7 +864,7 @@ class ApiController extends FOSRestController
 				$tweetText = $upload->getShareText();
 				
 				if (substr($tweetText, 0, 1) == "@") {
-					$tweetText = " " . $tweetText;
+					$tweetText = "." . $tweetText;
 				}
 
 				//$code = $tmhOAuth->request( 'POST','https://upload.twitter.com/1/statuses/update_with_media.json',
@@ -715,11 +890,6 @@ class ApiController extends FOSRestController
 				$this->em->flush();
 			}
 		}
-
-		$this->processemailsAction($request);
-		$this->processTumblrUploadsAction($request);
-		
-		return array("status" => "success");
 	}
 
 	/**
@@ -740,6 +910,17 @@ class ApiController extends FOSRestController
 		$uploads = $query->getResult();
 
 		if (count($uploads) > 0) {
+
+			$tumblrConsumerKey = $this->defaultTumblrConsumerKey;
+			if (trim($event->getTumblrConsumerKey()) != "") {
+				$tumblrConsumerKey = trim($event->getTumblrConsumerKey());
+			}
+	
+			$tumblrConsumerSecret = $this->defaultTumblrConsumerSecret;
+			if (trim($event->getTumblrConsumerSecret()) != "") {
+				$tumblrConsumerSecret = trim($event->getTumblrConsumerSecret());
+			}
+
 			foreach($uploads as $upload) {
 				$upload->setStatus("uploading");
 				$this->em->persist($upload);
@@ -768,8 +949,8 @@ class ApiController extends FOSRestController
 
 				$tmhOAuth = new tmhOAuth(array(
 						 'host'            => $postUrl,
-						 'consumer_key'    => "tSISWrYGOOcg0L9HlAJuHxnqxIRmSZjD66mGUvqiyP47UT60cQ",
-						 'consumer_secret' => "87ALrtQs5HqMGvxKRLIMQYcRbIoFWSGJHAnDJX7yPqKhJtHP9I",
+						 'consumer_key'    => $tumblrConsumerKey,
+						 'consumer_secret' => $tumblrConsumerSecret,
 						 'user_token'      => $upload->getOauthToken(),
 						 'user_secret'     => $upload->getOauthSecret(),
 				));

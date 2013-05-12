@@ -11,13 +11,21 @@ params:
     folder:
       label: Folder
     albumName:
-      label: Album Name
+      label: Facebook Album Name
     albumDesc:
-      label: Album Description
+      label: Facebook Album Description
+    thumbAspect:
+      label: Thumb Aspect Ratio
+      formType: choice
+      addFormOptions:
+        choices:
+          portrait: Portrait
+          landscape: Landscape
+          square: Square
     shortShareText:
-      label: Short Share Text
+      label: Twitter Share Text
     longShareText:
-      label: Long Share Text
+      label: Facebook Share Text
     emailShareSubject:
       label: Email Share Subject
     emailShareText:
@@ -38,6 +46,26 @@ params:
       label: Show Tumblr Button
     showEmail:
       label: Show Email Button
+    showWaterfall:
+      label: Show Waterfall
+    showFacebookLike:
+      label: Show Facebook Like
+    facebookLikeText:
+      label: Facebook Like Text
+    facebookLikeUrl:
+      label: Facebook Like URL
+    facebookConsumerKey:
+      label: Facebook Consumer Key
+    facebookConsumerSecret:
+      label: Facebook Consumer Secret
+    twitterConsumerKey:
+      label: Twitter Consumer Key
+    twitterConsumerSecret:
+      label: Twitter Consumer Secret
+    tumblrConsumerKey:
+      label: Tumblr Consumer Key
+    tumblrConsumerSecret:
+      label: Tumblr Consumer Secret
     
 builders:
   list:
@@ -47,6 +75,7 @@ builders:
       actions:
         new: ~
       object_actions:
+        show: ~
         edit: ~
         delete: ~
   filters:
@@ -55,23 +84,24 @@ builders:
   new:
     params:
       title: New Event
-      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, tumblrUrl, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, thumbAspect, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, tumblrUrl, current, showFacebook, showTwitter, showTumblr, showEmail, showWaterfall, showFacebookLike, facebookLikeText, facebookLikeUrl, facebookConsumerKey, facebookConsumerSecret, twitterConsumerKey, twitterConsumerSecret, tumblrConsumerKey, tumblrConsumerSecret ]
       actions:
         save: ~
         list: ~
   edit:
     params:
       title: "You're editing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, tumblrUrl, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, folder, thumbAspect, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, tumblrUrl, current, showFacebook, showTwitter, showTumblr, showEmail, showWaterfall, showFacebookLike, facebookLikeText, facebookLikeUrl, facebookConsumerKey, facebookConsumerSecret, twitterConsumerKey, twitterConsumerSecret, tumblrConsumerKey, tumblrConsumerSecret ]
       actions:
         save: ~
         list: ~
   show:
     params:
       title: "You're viewing the object \"%object%\"|{ %object%: PhotoEvent.eventName }|"
-      display: [eventCode, eventName, folder, albumName, albumDesc, shortShareText, longShareText, emailShareSubject, emailShareText, tumblrShareText, tumblrTags, tumblrUrl, current, showFacebook, showTwitter, showTumblr, showEmail ]
+      display: [eventCode, eventName, thumbAspect, albumName, albumDesc, current ]
       actions:
         list: ~
+        edit: ~
         new: ~
       object_actions: ~
   delete: ~

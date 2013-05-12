@@ -89,6 +89,21 @@ class Account
 	protected $tumblrShares;
 
 	/**
+	 * @ORM\Column(type="string", length=200)
+	 */
+	protected $gender;
+
+	/**
+	 * @ORM\Column(type="string", length=200)
+	 */
+	protected $birthday;
+
+	/**
+	 * @ORM\Column(type="string", length=200)
+	 */
+	protected $facebookUsername;
+
+	/**
 	 * Constructor
 	 */
 	public function __construct()
@@ -367,4 +382,46 @@ class Account
 	{
 		return $this->emailShares;
 	}
+
+	public function setBirthday($birthday)
+	{
+		$this->birthday = $birthday;
+	}
+
+	public function getBirthday()
+	{
+		return $this->birthday;
+	}
+
+	public function setGender($gender)
+	{
+		$this->gender = $gender;
+	}
+
+	public function getGender()
+	{
+		return $this->gender;
+	}
+
+	public function setTumblrShares($tumblrShares)
+	{
+		$this->tumblrShares = $tumblrShares;
+	}
+
+	public function getTumblrShares()
+	{
+		return $this->tumblrShares;
+	}
+
+	public function setFacebookUsername($facebookUsername)
+	{
+		$this->facebookUsername = $facebookUsername;
+	}
+
+	public function getFacebookUsername()
+	{
+		return $this->facebookUsername;
+	}
+
+	
 }
