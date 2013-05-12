@@ -8,21 +8,42 @@ Installation
 OSX
 ------------------------------
 
-1. install Github: http://github.com
+1. set your OSX security proferences to allow software from unidentified developers
 
-2. install MAMP
+2. install Github: http://github.com : make sure you also install the command line tools
 
-3. Use github to clone the repository, somewhere like: /Users/nicky/Documents/nickydigital_photobooth_server
+3. install git: http://git-scm.com/downloads
 
-4. in the terminal type: mysqladmin -u root password root
- 
-5. in the terminal type: mysql -u root -proot -e "CREATE DATABASE photobooth"
+4. install MAMP
 
-6. cd /Users/nicky/Documents/nickydigital_photobooth_server 
+5. vim ~/.profile
 
-7. ./update.sh
+6. Add the line at the bottom:
+export PATH=/Applications/MAMP/Library/bin:$PATH
 
-8. restart MAMP
+7. sudo cp /etc/php.ini.default /etc/php.ini
+
+8. sudo vim /etc/php.ini
+
+9. find the default timezone line and change it to:
+date.timezone=America/New_York
+
+7. close the terminal window and open a new one
+
+8. Use github to clone the repository, somewhere like: /Users/nicky/nickydigital_photobooth_server
+
+9. in the terminal type: mysql -u root -proot -e "CREATE DATABASE photobooth"
+
+10. cd /Users/nicky/nickydigital_photobooth_server/web
+note that "web" is added to this URL 
+
+11. ./update.sh
+
+12. In MAMP, change Preferences > Apache > Document Root to: /Users/nicky/nickydigital_photobooth_server
+
+13. In MAMP, click Prefernces > Ports, click "Set to default Apache and MySQL ports
+
+14. restart MAMP
 
 
 
