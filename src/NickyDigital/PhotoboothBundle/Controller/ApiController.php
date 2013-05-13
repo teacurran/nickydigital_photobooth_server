@@ -820,14 +820,14 @@ class ApiController extends FOSRestController
 
 		if (count($uploads) > 0) {
 
-			$twitterConsumerKey = $this->defaultFacebookConsumerKey;
-			if (trim($event->getFacebookConsumerKey()) != "") {
-				$twitterConsumerKey = trim($event->getFacebookConsumerKey()); 
+			$twitterConsumerKey = $this->defaultTwitterConsumerKey;
+			if (trim($event->getTwitterConsumerKey()) != "") {
+				$twitterConsumerKey = trim($event->getTwitterConsumerKey()); 
 			}
 
-			$twitterConsumerSecret = $this->defaultFacebookConsumerSecret;
-			if (trim($event->getFacebookConsumerSecret()) != "") {
-				$twitterConsumerSecret = trim($event->getFacebookConsumerSecret()); 
+			$twitterConsumerSecret = $this->defaultTwitterConsumerSecret;
+			if (trim($event->getTwitterConsumerSecret()) != "") {
+				$twitterConsumerSecret = trim($event->getTwitterConsumerSecret()); 
 			}
 
 			foreach($uploads as $upload) {
