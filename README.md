@@ -59,9 +59,10 @@ Windows
 
 Control Panel > System and Security > System > Advanced System Settings > Environment Variables 
 
-Bin folders are in: C:\wamp\bin\php\php5.3.13 and c:\wamp\bin\mysql\mysql5.5.24 
+Bin folders are: C:\wamp\bin\php\php5.3.13 and c:\wamp\bin\mysql\mysql5.5.24\bin
 
-6. Use the wamp task bar panel to enable the following php extensions: php_curl, php_fileinfo, php_phar
+6. Use the wamp task bar panel to enable the following php extensions: php_curl, php_fileinfo, php_phar, php_openssl
+    You may have to edit php.ini in C:\wamp\bin\php\php5.3.13 to remove the ; from in front of these extensions
 
 7. Use the wamp task bar panel to enable the following apache extensions: mod_rewrite
 
