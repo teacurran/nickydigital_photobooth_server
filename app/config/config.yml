@@ -102,7 +102,10 @@ knp_menu:
 
 admingenerator_generator:
     base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
-    knp_menu_class: NickyDigital\PhotoboothAdminBundle\Menu\AdminMenu
+
+    # todo: knp_menu was used in 2.1, now with the newer 2.4, We have to figure out what it changed to.
+    #knp_menu_class: NickyDigital\PhotoboothAdminBundle\Menu\AdminMenu
+
     use_doctrine_orm: true
     #use_doctrine_odm: true
     #use_propel: true

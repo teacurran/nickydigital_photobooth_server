@@ -30,7 +30,7 @@
 		"jms/serializer-bundle": "dev-master",
 		"kriswallsmith/assetic": "1.1.*@dev",
 		"phpunit/phpunit": "3.7.*",
-        "cedriclombardot/admingenerator-generator-bundle": "dev-master",
+        "cedriclombardot/admingenerator-generator-bundle": "2.3.*@dev",
 		"cedriclombardot/admingenerator-user-bundle": "dev-master",
 		"cedriclombardot/admingenerator-activeadmintheme-bundle": "dev-master",
 		"facebook/php-sdk": "dev-master",

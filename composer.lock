@@ -3,8 +3,42 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "5610f3c2567da8425fe307facd935bea",
+    "hash": "8b99f577da493b3738e3a523bcb9e6d0",
     "packages": [
+        {
+            "name": "afarkas/html5shiv",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aFarkas/html5shiv.git",
+                "reference": "cec73ff6d8d8f25423439efa8940fd86da46e146"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aFarkas/html5shiv/zipball/cec73ff6d8d8f25423439efa8940fd86da46e146",
+                "reference": "cec73ff6d8d8f25423439efa8940fd86da46e146",
+                "shasum": ""
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "dist/html5shiv.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "GPL-2.0"
+            ],
+            "description": "Defacto way to enable use of HTML5 sectioning elements in legacy Internet Explorer.",
+            "homepage": "http://paulirish.com/2011/the-history-of-the-html5-shiv/",
+            "time": "2013-11-26 19:17:01"
+        },
         {
             "name": "cedriclombardot/admingenerator-activeadmintheme-bundle",
             "version": "dev-master",
@@ -46,26 +80,33 @@
         },
         {
             "name": "cedriclombardot/admingenerator-generator-bundle",
-            "version": "2.1.x-dev",
+            "version": "dev-master",
             "target-dir": "Admingenerator/GeneratorBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony2admingenerator/AdmingeneratorGeneratorBundle.git",
-                "reference": "a1fbf6d2c066c8adddf361ed5455a67b0ece41a3"
+                "reference": "f517240d88dfb86de9aea75acbdbfc51b31a2f57"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/a1fbf6d2c066c8adddf361ed5455a67b0ece41a3",
-                "reference": "a1fbf6d2c066c8adddf361ed5455a67b0ece41a3",
+                "url": "https://api.github.com/repos/symfony2admingenerator/AdmingeneratorGeneratorBundle/zipball/f517240d88dfb86de9aea75acbdbfc51b31a2f57",
+                "reference": "f517240d88dfb86de9aea75acbdbfc51b31a2f57",
                 "shasum": ""
             },
             "require": {
-                "cedriclombardot/twig-generator": "dev-master",
+                "afarkas/html5shiv": ">= 3.7.0",
+                "cedriclombardot/twig-generator": "1.0.*",
+                "components/bootstrap": ">= 2.3.1,<3.0.0",
+                "components/font-awesome": "~3.2",
+                "components/jquery": ">= 1.9.0, < 2.0.0",
+                "components/jqueryui": ">= 1.9.0",
                 "knplabs/knp-menu-bundle": ">1.0,<2.1",
-                "symfony/symfony": ">= 2.1.0",
-                "twig/extensions": "dev-master",
+                "robloach/component-installer": ">= 0.0.11",
+                "sensio/generator-bundle": ">= 2.3.3",
+                "symfony/symfony": ">= 2.2.0",
+                "twig/extensions": "1.0.*",
                 "twig/twig": ">= 1.9.0",
-                "white-october/pagerfanta-bundle": "2.1.*@dev"
+                "white-october/pagerfanta-bundle": "1.0.*@dev"
             },
             "require-dev": {
                 "doctrine/common": ">=2.2.3,<2.5-dev",
@@ -73,13 +114,14 @@
                 "doctrine/orm": ">=2.2.3,<2.5-dev"
             },
             "suggest": {
-                "avalanche123/imagine-bundle": "Image manipulation using Imagine and Twig Filters",
-                "cedriclombardot/admingenerator-user-bundle": "Help you to overwrite the base layout of FOSUserBundle or others giving a parameter key of the container"
+                "avocode/form-extensions-bundle": "Symfony2 form extensions for Admingenerator",
+                "cedriclombardot/admingenerator-user-bundle": "FOSUserBundle integration for Admingenerator",
+                "jms/security-extra-bundle": "Allows expressions in credential checks for generated actions"
             },
             "type": "symfony-bundle",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "1.0-dev"
+                    "dev-master": "2.3-dev"
                 }
             },
             "autoload": {
@@ -108,7 +150,7 @@
                 "generator",
                 "yaml"
             ],
-            "time": "2013-06-08 10:52:38"
+            "time": "2014-02-03 09:35:08"
         },
         {
             "name": "cedriclombardot/admingenerator-oldtheme-bundle",
@@ -194,10 +236,10 @@
         },
         {
             "name": "cedriclombardot/twig-generator",
-            "version": "dev-master",
+            "version": "v1.0.0",
             "source": {
                 "type": "git",
-                "url": "git://github.com/cedriclombardot/TwigGenerator.git",
+                "url": "https://github.com/cedriclombardot/TwigGenerator.git",
                 "reference": "b4a846956d330ed464070f6276801d16c92ae5c5"
             },
             "dist": {
@@ -236,6 +278,224 @@
                 "twig"
             ],
             "time": "2012-11-09 23:18:09"
+        },
+        {
+            "name": "components/bootstrap",
+            "version": "2.3.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/bootstrap.git",
+                "reference": "9a190b76332a761bb99cfd2cc681be4fcd009262"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/bootstrap/zipball/9a190b76332a761bb99cfd2cc681be4fcd009262",
+                "reference": "9a190b76332a761bb99cfd2cc681be4fcd009262",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": "1.9.*"
+            },
+            "suggest": {
+                "components/bootstrap-default": "Provide a theme for Bootstrap as components/bootstrap only provides the CSS as file assets"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "js/bootstrap.js"
+                    ],
+                    "files": [
+                        "js/bootstrap.min.js",
+                        "css/*.css",
+                        "img/*.png"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ]
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "Apache-2.0"
+            ],
+            "authors": [
+                {
+                    "name": "Twitter, Inc"
+                }
+            ],
+            "description": "Sleek, intuitive, and powerful front-end framework for faster and easier web development.",
+            "homepage": "http://twitter.github.com/bootstrap/",
+            "keywords": [
+                "bootstrap",
+                "css"
+            ],
+            "time": "2013-08-13 16:23:55"
+        },
+        {
+            "name": "components/font-awesome",
+            "version": "3.2.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/font-awesome.git",
+                "reference": "db95766874c1ec8a951d55edecda9e526839a543"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/font-awesome/zipball/db95766874c1ec8a951d55edecda9e526839a543",
+                "reference": "db95766874c1ec8a951d55edecda9e526839a543",
+                "shasum": ""
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "styles": [
+                        "css/font-awesome.css"
+                    ],
+                    "files": [
+                        "css/font-awesome.min.css",
+                        "css/font-awesome-ie7.*",
+                        "font/*"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT",
+                "OFL-1.1"
+            ],
+            "description": "The iconic font designed for use with Twitter Bootstrap.",
+            "time": "2013-10-31 19:53:21"
+        },
+        {
+            "name": "components/jquery",
+            "version": "1.9.x-dev",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jquery.git",
+                "reference": "0e94233e6a4ab678d8fc04312241b2f840717b0c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jquery/zipball/0e94233e6a4ab678d8fc04312241b2f840717b0c",
+                "reference": "0e94233e6a4ab678d8fc04312241b2f840717b0c",
+                "shasum": ""
+            },
+            "require": {
+                "robloach/component-installer": "*"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "scripts": [
+                        "jquery.js"
+                    ],
+                    "files": [
+                        "jquery.min.js",
+                        "jquery-migrate.js",
+                        "jquery-migrate.min.js"
+                    ]
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "John Resig",
+                    "email": "jeresig@gmail.com",
+                    "homepage": "http://ejohn.org/"
+                }
+            ],
+            "description": "jQuery JavaScript Library",
+            "homepage": "http://jquery.com",
+            "time": "2013-07-16 10:41:05"
+        },
+        {
+            "name": "components/jqueryui",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/components/jqueryui.git",
+                "reference": "2e11ec45e1a2b3ab9a9334414f1a569abf1d2671"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/components/jqueryui/zipball/2e11ec45e1a2b3ab9a9334414f1a569abf1d2671",
+                "reference": "2e11ec45e1a2b3ab9a9334414f1a569abf1d2671",
+                "shasum": ""
+            },
+            "require": {
+                "components/jquery": ">=1.8"
+            },
+            "type": "component",
+            "extra": {
+                "component": {
+                    "name": "jquery-ui",
+                    "scripts": [
+                        "ui/jquery-ui.js"
+                    ],
+                    "files": [
+                        "ui/**",
+                        "themes/**"
+                    ],
+                    "shim": {
+                        "deps": [
+                            "jquery"
+                        ],
+                        "exports": "jQuery"
+                    }
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jQuery UI Team",
+                    "homepage": "http://jqueryui.com/about"
+                },
+                {
+                    "name": "Joern Zaefferer",
+                    "email": "joern.zaefferer@gmail.com",
+                    "homepage": "http://bassistance.de"
+                },
+                {
+                    "name": "Scott Gonzalez",
+                    "email": "scott.gonzalez@gmail.com",
+                    "homepage": "http://scottgonzalez.com"
+                },
+                {
+                    "name": "Kris Borchers",
+                    "email": "kris.borchers@gmail.com",
+                    "homepage": "http://krisborchers.com"
+                },
+                {
+                    "name": "Corey Frang",
+                    "email": "gnarf37@gmail.com",
+                    "homepage": "http://gnarf.net",
+                    "role": "Developer"
+                },
+                {
+                    "name": "Mike Sherov",
+                    "email": "mike.sherov@gmail.com",
+                    "homepage": "http://mike.sherov.com"
+                },
+                {
+                    "name": "TJ VanToll",
+                    "email": "tj.vantoll@gmail.com",
+                    "homepage": "http://tjvantoll.com"
+                }
+            ],
+            "description": "jQuery UI is a curated set of user interface interactions, effects, widgets, and themes built on top of the jQuery JavaScript Library. Whether you're building highly interactive web applications or you just need to add a date picker to a form control, jQuery UI is the perfect choice.",
+            "time": "2013-12-30 09:07:58"
         },
         {
             "name": "doctrine/annotations",
@@ -1772,12 +2032,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/KnpLabs/KnpMenu.git",
-                "reference": "9f4235fb2ea6d173dc277e11821c1a1fc38bf308"
+                "reference": "835ee51d911e4d8c9adf129907ebbebfa9a1e906"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/9f4235fb2ea6d173dc277e11821c1a1fc38bf308",
-                "reference": "9f4235fb2ea6d173dc277e11821c1a1fc38bf308",
+                "url": "https://api.github.com/repos/KnpLabs/KnpMenu/zipball/835ee51d911e4d8c9adf129907ebbebfa9a1e906",
+                "reference": "835ee51d911e4d8c9adf129907ebbebfa9a1e906",
                 "shasum": ""
             },
             "require": {
@@ -1828,7 +2088,7 @@
                 "menu",
                 "tree"
             ],
-            "time": "2014-01-31 17:04:27"
+            "time": "2014-02-03 10:44:10"
         },
         {
             "name": "knplabs/knp-menu-bundle",
@@ -2193,12 +2453,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/php-code-coverage.git",
-                "reference": "d4b3bc1c4b905cd0b3b356e8608857f26a041c1b"
+                "reference": "6ba4ed2895d538a039d5d5866edc4ec0424c7852"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/d4b3bc1c4b905cd0b3b356e8608857f26a041c1b",
-                "reference": "d4b3bc1c4b905cd0b3b356e8608857f26a041c1b",
+                "url": "https://api.github.com/repos/sebastianbergmann/php-code-coverage/zipball/6ba4ed2895d538a039d5d5866edc4ec0424c7852",
+                "reference": "6ba4ed2895d538a039d5d5866edc4ec0424c7852",
                 "shasum": ""
             },
             "require": {
@@ -2246,7 +2506,7 @@
                 "testing",
                 "xunit"
             ],
-            "time": "2014-01-31 08:51:59"
+            "time": "2014-02-03 07:44:47"
         },
         {
             "name": "phpunit/php-file-iterator",
@@ -2604,6 +2864,51 @@
                 "psr-3"
             ],
             "time": "2014-01-18 15:33:09"
+        },
+        {
+            "name": "robloach/component-installer",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/RobLoach/component-installer.git",
+                "reference": "c2e456e7644885f786169e52f590719aa5a8a7d8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/RobLoach/component-installer/zipball/c2e456e7644885f786169e52f590719aa5a8a7d8",
+                "reference": "c2e456e7644885f786169e52f590719aa5a8a7d8",
+                "shasum": ""
+            },
+            "require": {
+                "composer-plugin-api": "1.0.0",
+                "kriswallsmith/assetic": "1.*",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "composer/composer": "1.*"
+            },
+            "type": "composer-installer",
+            "extra": {
+                "class": "ComponentInstaller\\Installer"
+            },
+            "autoload": {
+                "psr-0": {
+                    "ComponentInstaller": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Rob Loach",
+                    "email": "robloach@gmail.com",
+                    "homepage": "http://robloach.net"
+                }
+            ],
+            "description": "Allows installation of Components via Composer.",
+            "time": "2013-09-08 14:10:00"
         },
         {
             "name": "sensio/distribution-bundle",
@@ -3343,22 +3648,28 @@
         },
         {
             "name": "white-october/pagerfanta-bundle",
-            "version": "2.1.x-dev",
+            "version": "dev-master",
             "target-dir": "WhiteOctober/PagerfantaBundle",
             "source": {
                 "type": "git",
                 "url": "https://github.com/whiteoctober/WhiteOctoberPagerfantaBundle.git",
-                "reference": "5d1b9eb262055019a280a0ec48bc0b11fba5bb23"
+                "reference": "35c8e2124ffa62b14f09dd357c78ade58ac444bc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberPagerfantaBundle/zipball/5d1b9eb262055019a280a0ec48bc0b11fba5bb23",
-                "reference": "5d1b9eb262055019a280a0ec48bc0b11fba5bb23",
+                "url": "https://api.github.com/repos/whiteoctober/WhiteOctoberPagerfantaBundle/zipball/35c8e2124ffa62b14f09dd357c78ade58ac444bc",
+                "reference": "35c8e2124ffa62b14f09dd357c78ade58ac444bc",
                 "shasum": ""
             },
             "require": {
                 "pagerfanta/pagerfanta": "1.0.*",
-                "symfony/framework-bundle": "~2.1"
+                "symfony/framework-bundle": "~2.2",
+                "symfony/property-access": "~2.2",
+                "symfony/twig-bundle": "~2.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "~3.7",
+                "symfony/symfony": "~2.2"
             },
             "type": "symfony-bundle",
             "extra": {
@@ -3387,7 +3698,7 @@
                 "page",
                 "paging"
             ],
-            "time": "2013-03-30 22:08:55"
+            "time": "2014-01-30 11:03:51"
         },
         {
             "name": "willdurand/jsonp-callback-validator",
@@ -3500,7 +3811,6 @@
         "jms/serializer-bundle": 20,
         "kriswallsmith/assetic": 20,
         "cedriclombardot/admingenerator-generator-bundle": 20,
-        "cedriclombardot/twig-generator": 20,
         "cedriclombardot/admingenerator-user-bundle": 20,
         "cedriclombardot/admingenerator-activeadmintheme-bundle": 20,
         "facebook/php-sdk": 20,
