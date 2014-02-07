@@ -75,8 +75,11 @@ Bin folders are: C:\wamp\bin\php\php5.3.13 and c:\wamp\bin\mysql\mysql5.5.24\bin
 11. restart wamp
 
 
+Code Examples
+===================================================
 
-
+Generate a enw admin page
+s2 admin:generate-admin --model-name=User --namespace=NickyDigital\PhotoboothBundle --bundle-name=PhotoboothBundle --dir=./src
 
 
  

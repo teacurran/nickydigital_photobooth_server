@@ -2,8 +2,11 @@
 
 namespace NickyDigital\PhotoboothAdminBundle\Form\Type;
 
-use Admingenerated\NickyDigitalPhotoboothAdminBundle\Form\BaseType\FiltersType as BaseFiltersType;
+use Admingenerated\PhotoboothAdminBundle\Form\BaseType\FiltersType as BaseFiltersType;
 
+/**
+ * FiltersType
+ */
 class FiltersType extends BaseFiltersType
 {
 }

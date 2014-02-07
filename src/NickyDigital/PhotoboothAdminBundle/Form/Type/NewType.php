@@ -2,8 +2,11 @@
 
 namespace NickyDigital\PhotoboothAdminBundle\Form\Type;
 
-use Admingenerated\NickyDigitalPhotoboothAdminBundle\Form\BaseType\NewType as BaseNewType;
+use Admingenerated\PhotoboothAdminBundle\Form\BaseType\NewType as BaseNewType;
 
+/**
+ * NewType
+ */
 class NewType extends BaseNewType
 {
 }

@@ -2,8 +2,11 @@
 
 namespace NickyDigital\PhotoboothAdminBundle\Controller;
 
-use Admingenerated\NickyDigitalPhotoboothAdminBundle\BaseController\NewController as BaseNewController;
+use Admingenerated\PhotoboothAdminBundle\BaseController\NewController as BaseNewController;
 
+/**
+ * NewController
+ */
 class NewController extends BaseNewController
 {
 }

@@ -2,8 +2,11 @@
 
 namespace NickyDigital\PhotoboothAdminBundle\Controller;
 
-use Admingenerated\NickyDigitalPhotoboothAdminBundle\BaseController\ShowController as BaseShowController;
+use Admingenerated\PhotoboothAdminBundle\BaseController\ShowController as BaseShowController;
 
+/**
+ * ShowController
+ */
 class ShowController extends BaseShowController
 {
 }

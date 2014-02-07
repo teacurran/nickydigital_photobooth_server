@@ -2,8 +2,11 @@
 
 namespace NickyDigital\PhotoboothAdminBundle\Controller;
 
-use Admingenerated\NickyDigitalPhotoboothAdminBundle\BaseController\EditController as BaseEditController;
+use Admingenerated\PhotoboothAdminBundle\BaseController\EditController as BaseEditController;
 
+/**
+ * EditController
+ */
 class EditController extends BaseEditController
 {
 }

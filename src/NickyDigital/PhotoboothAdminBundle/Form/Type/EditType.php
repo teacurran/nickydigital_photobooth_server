@@ -2,8 +2,11 @@
 
 namespace NickyDigital\PhotoboothAdminBundle\Form\Type;
 
-use Admingenerated\NickyDigitalPhotoboothAdminBundle\Form\BaseType\EditType as BaseEditType;
+use Admingenerated\PhotoboothAdminBundle\Form\BaseType\EditType as BaseEditType;
 
+/**
+ * EditType
+ */
 class EditType extends BaseEditType
 {
 }
