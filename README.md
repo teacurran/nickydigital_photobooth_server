@@ -59,16 +59,16 @@ Windows
 
 Control Panel > System and Security > System > Advanced System Settings > Environment Variables 
 
-Bin folders are: C:\wamp\bin\php\php5.3.13 and c:\wamp\bin\mysql\mysql5.5.24\bin
+Bin folders are: C:\wamp\bin\php\php5.4.16 and c:\wamp\bin\mysql\mysql5.6.12\bin
 
-6. Use the wamp task bar panel to enable the following php extensions: php_curl, php_fileinfo, php_phar, php_openssl
-    You may have to edit php.ini in C:\wamp\bin\php\php5.3.13 to remove the ; from in front of these extensions
+6. Use the wamp task bar panel to enable the following php extensions: php_curl, php_fileinfo, php_openssl
+    You may have to edit php.ini in C:\wamp\bin\php\php5.4.16 to remove the ; from in front of these extensions
 
 7. Use the wamp task bar panel to enable the following apache extensions: mod_rewrite
 
-8. from the command prompt: c:\wamp\mysql\mysql5.5.24\bin\mysqladmin -u root password root
+8. from the command prompt: c:\wamp\mysql\mysql5.6.12\bin\mysqladmin -u root password root
  
-9. from the command prompt: c:\wamp\mysql\mysql5.5.24\bin\mysql -u root -proot -e "CREATE DATABASE photobooth"
+9. from the command prompt: c:\wamp\mysql\mysql5.6.12\bin\mysql -u root -proot -e "CREATE DATABASE photobooth"
 
 10. run update.sh
 
