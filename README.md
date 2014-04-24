@@ -55,7 +55,10 @@ Windows
 2. install Github: http://windows.github.com
 3. install WampServer, 32bit: http://www.wampserver.com
 4. Use github to clone the repository, somewhere like: C:\Users\nicky\Docuents\nickydigital_photobooth_server
-5. Add PHP and mySQL bin paths to the system PATH environment variable. 
+5. use WAMP to edit apache httpd.conf
+  1. It should look like: DocumentRoot "C:/Users/nicky/Documents/nickydigital_photobooth_server"
+  2. Make sure to also change the <Directory> tag that has the same path right below it.
+6. Add PHP and mySQL bin paths to the system PATH environment variable. 
 
 Control Panel > System and Security > System > Advanced System Settings > Environment Variables 
 
