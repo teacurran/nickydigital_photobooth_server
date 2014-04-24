@@ -77,6 +77,11 @@ Bin folders are: C:\wamp\bin\php\php5.4.16 and c:\wamp\bin\mysql\mysql5.6.12\bin
 
 11. restart wamp
 
+12. Test the site by going to: http://127.0.0.1/api/event
+  1. Your should see: {"id":0,"code":"default","name":"Default"} 
+
+13. Edit your events by going to the following URL: http://127.0.0.1/admin/event/ 
+
 
 Code Examples
 ===================================================
