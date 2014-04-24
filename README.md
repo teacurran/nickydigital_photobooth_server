@@ -58,6 +58,17 @@ Windows
 5. use WAMP to edit apache httpd.conf
   1. It should look like: DocumentRoot "C:/Users/nicky/Documents/nickydigital_photobooth_server/web"
   2. Make sure to also change the <Directory> tag that has the same path right below it.
+
+  
+    <Directory "C:/Users/nicky/Documents/nickydigital_photobooth_server/web">
+        Order allow,deny
+        Allow from all          
+        AllowOverride None
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f 
+        RewriteRule ^(.*)$ app.php [QSA,L]
+    </Directory>
+
 6. Add PHP and mySQL bin paths to the system PATH environment variable. 
 
 Control Panel > System and Security > System > Advanced System Settings > Environment Variables 
