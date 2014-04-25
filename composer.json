@@ -11,7 +11,7 @@
 		"php": ">=5.3.3",
 		"symfony/symfony": "2.4.0",
 		"doctrine/orm": ">=2.1",
-        "doctrine/doctrine-bundle": "dev-master",
+		"doctrine/doctrine-bundle": "dev-master",
 		"doctrine/doctrine-fixtures-bundle": "dev-master",
 		"doctrine/data-fixtures": "dev-master",
 		"friendsofsymfony/user-bundle": "dev-master",
@@ -30,13 +30,16 @@
 		"jms/serializer-bundle": "dev-master",
 		"kriswallsmith/assetic": "1.1.*@dev",
 		"phpunit/phpunit": "3.7.*",
-        "cedriclombardot/admingenerator-generator-bundle": "2.3.*@dev",
+		"cedriclombardot/admingenerator-generator-bundle": "2.3.*@dev",
 		"cedriclombardot/admingenerator-user-bundle": "dev-master",
 		"cedriclombardot/admingenerator-activeadmintheme-bundle": "dev-master",
 		"facebook/php-sdk": "dev-master",
 		"themattharris/tmhoauth": "dev-master"
 	},
 	"scripts": {
+		"post-dump-autoload": [
+			"ComponentInstaller\\Installer::postAutoloadDump"
+		],
 		"post-install-cmd": [
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
@@ -49,6 +52,11 @@
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
 			"Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
 		]
+	},
+	"config": {
+		"bin-dir": "bin",
+		"component-dir": "web/components",
+		"component-baseurl": "/components"
 	},
 	"extra": {
 		"symfony-app-dir": "app",
