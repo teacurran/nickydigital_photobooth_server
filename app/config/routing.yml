@@ -1,9 +1,13 @@
+nickydigital_default:
+    resource: "@NickyDigitalPhotoboothBundle/Controller/DefaultController.php"
+    type: annotation
+    prefix: /
+
 nickydigital_photobooth_api:
-    resource: "@NickyDigitalPhotoboothBundle/Controller/"
+    resource: "@NickyDigitalPhotoboothBundle/Controller/ApiController.php"
     type:     annotation
     prefix:   /api
-    defaults: {_format: json}
-
+    defaults: { _format: json }
 
 admin_event:
     resource: "@NickyDigitalPhotoboothAdminBundle/Controller/Event/"
