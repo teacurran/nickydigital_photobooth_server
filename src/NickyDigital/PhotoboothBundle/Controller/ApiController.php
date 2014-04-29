@@ -63,7 +63,9 @@ class ApiController extends FOSRestController
 	protected $defaultTumblrConsumerKey = 'tSISWrYGOOcg0L9HlAJuHxnqxIRmSZjD66mGUvqiyP47UT60cQ';
 	protected $defaultTumblrConsumerSecret = '87ALrtQs5HqMGvxKRLIMQYcRbIoFWSGJHAnDJX7yPqKhJtHP9I';
 
+	
 	public function __construct() {
+		
 	}
 	
 	
@@ -308,6 +310,107 @@ class ApiController extends FOSRestController
 		fclose($sizedHandle);
 
 		return $response;
+	}
+
+	/**
+	 * @Route("/photo-resize-test", name="api_photo_resize")
+	 * @Method({"GET"})
+	 * @Rest\View
+	 */
+	public function photoResizeTestAction()
+	{
+		set_time_limit(10000);
+		$logger = $this->get('logger');
+		
+		$time_start = microtime(true); 
+
+		$event = $this->getCurrentEvent();
+
+		$photoListArray = Array();
+
+		$finder = new Finder();
+
+		$filesDir = $this->getPhotoDir($event);
+		if (!$this->rmkdir($filesDir)) {
+			die("Failed to create folders:" . $filesDir);
+		}
+
+		$sort = function (\SplFileInfo $a, \SplFileInfo $b) {
+		    return $a->getMTime() > $b->getMTime();
+		};
+
+		$finder->files()->in($filesDir)->sort($sort);
+
+		$thumbsGenerated = 0;
+		$detailsGenerated = 0;
+		$thumbFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->thumb_width;
+		$detailFileDir = $this->getCacheDir() . "/" . $event->getEventCode() . "/" . $this->detail_width;
+		
+		
+
+		$i = 0;
+		foreach ($finder as $file) {
+			$filename = $file->getFilename();
+
+			// TODO: why is true here? were the strpos not working?
+			if (true || strpos($filename, '.gif', 1) || strpos($filename, '.jpg', 1)) {
+
+				$originalFilename = $filesDir . "/" . $filename;
+				$thumbFilename = $thumbFileDir . "/" . $filename;
+		
+				// Generate a thumbnail
+				if (!$this->rmkdir($thumbFileDir)) {
+					die('Failed to create folders');
+				}
+	
+				$resizedImage = new ResizedImage();
+				$resizedImage->load($originalFilename);
+				$resizedImage->resizeToWidth($this->thumb_width);
+				$resizedImage->save($thumbFilename);
+				$thumbsGenerated++;
+
+				// Only tell the client about the photo after a thumb has been created.
+				if (file_exists($thumbFilename)) {
+					$i++;
+					$photo = array();
+					$photo['filename'] = $filename;
+	
+					array_push($photoListArray, $photo);
+				}
+			}
+		}
+
+		foreach ($finder as $file) {
+			$filename = $file->getFilename();
+	
+			$originalFilename = $filesDir . "/" . $filename;
+			$detailFilename = $detailFileDir . "/" . $filename;
+			
+	    	$logger->info("detail file:" . $detailFilename);
+			
+			// Generate a detail sized image
+			if (!$this->rmkdir($detailFileDir)) {
+				die('Failed to create folders');
+			}
+
+			$resizedImage = new ResizedImage();
+			$resizedImage->load($originalFilename);
+			$resizedImage->resizeToWidth($this->detail_width);
+			$resizedImage->save($detailFilename);
+			$detailsGenerated++;
+		}
+
+		$time_end = microtime(true);
+		
+		//dividing with 60 will give the execution time in minutes other wise seconds
+		$execution_time = ($time_end - $time_start)/60;
+		
+		$logger->info("execution_time:" . $execution_time);
+
+		return array("thumbsGenerated" => $thumbsGenerated,
+			"detailsGenerated" => $detailsGenerated,
+			"execution_time" => $execution_time
+		);
 	}
 
 	/**
