@@ -322,7 +322,6 @@ class ApiController extends FOSRestController
 		set_time_limit(10000);
 		$logger = $this->get('logger');
 		
-		$time_start = microtime(true); 
 
 		$event = $this->getCurrentEvent();
 
@@ -348,6 +347,7 @@ class ApiController extends FOSRestController
 		
 		
 
+		$time_start = microtime(true); 
 		$i = 0;
 		foreach ($finder as $file) {
 			$filename = $file->getFilename();
@@ -379,7 +379,10 @@ class ApiController extends FOSRestController
 				}
 			}
 		}
+		$time_end = microtime(true);
+		$thumb_execution_time = ($time_end - $time_start)/60;
 
+		$time_start = microtime(true); 
 		foreach ($finder as $file) {
 			$filename = $file->getFilename();
 	
@@ -399,17 +402,18 @@ class ApiController extends FOSRestController
 			$resizedImage->save($detailFilename);
 			$detailsGenerated++;
 		}
-
 		$time_end = microtime(true);
+		$detail_execution_time = ($time_end - $time_start)/60;
 		
-		//dividing with 60 will give the execution time in minutes other wise seconds
-		$execution_time = ($time_end - $time_start)/60;
+		$total_execution_time = $thumb_execution_time + $detail_execution_time;
 		
-		$logger->info("execution_time:" . $execution_time);
+		$logger->info("execution_time:" . $total_execution_time);
 
 		return array("thumbsGenerated" => $thumbsGenerated,
 			"detailsGenerated" => $detailsGenerated,
-			"execution_time" => $execution_time
+			"thumb_execution_time" => $thumb_execution_time,
+			"detail_execution_time" => $detail_execution_time,
+			"total_execution_time" => $total_execution_time
 		);
 	}
 

@@ -94,7 +94,7 @@ class ResizedImage
 	function resize($width, $height)
 	{
 		$new_image = imagecreatetruecolor($width, $height);
-		imagecopyresampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight());
+		$this->fastImageCopyResampled($new_image, $this->image, 0, 0, 0, 0, $width, $height, $this->getWidth(), $this->getHeight(), 1);
 		$this->image = $new_image;
 	}
 
