@@ -1,7 +1,7 @@
 #!/bin/sh
 
 git pull
-#php composer.phar self-update
+php composer.phar self-update
 #php composer.phar update
 php composer.phar install
 php app/console doctrine:schema:update --force
