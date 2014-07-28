@@ -20,9 +20,14 @@ admin_event:
 #    type:     annotation
 #    prefix:   /
 
+
 AdmingeneratorDashboard_welcome:
     pattern:   /admin/dashboard
     defaults:  { _controller: AdmingeneratorGeneratorBundle:Dashboard:welcome }
+
+admin_map_dashboard:
+    path: /admin/business/dashboard
+    defaults:  { _controller: TrackmeBackendBundle:Default:dashboard }
 
 _welcome:
     pattern:   /admin

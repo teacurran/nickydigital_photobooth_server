@@ -100,27 +100,15 @@ knp_menu:
 knp_menu:
     twig: true
 
+
 admingenerator_generator:
-    base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
+    use_doctrine_orm:     true
+    base_admin_template: NickyDigitalPhotoboothAdminBundle::base_admin_assetic_less.html.twig
+    dashboard_welcome_path: fos_user_security_login
 
-    # todo: knp_menu was used in 2.1, now with the newer 2.4, We have to figure out what it changed to.
-    #knp_menu_class: NickyDigital\PhotoboothAdminBundle\Menu\AdminMenu
-
-    use_doctrine_orm: true
-    #use_doctrine_odm: true
-    #use_propel: true
-    #base_admin_template: AdmingeneratorActiveAdminThemeBundle::base_admin_assetic_less.html.twig
-    #templates_dirs: [ %kernel.root_dir%/../vendor/cedriclombardot/admingenerator-oldtheme-bundle/Admingenerator/OldThemeBundle/Resources/templates ]
-
-
-#admingenerator_generator:
-    # choose and uncomment only one
-    #    base_admin_template: AdmingeneratorGeneratorBundle::base_admin.html.twig
-#    base_admin_template: AdmingeneratorGeneratorBundle::base_admin_assetic_less.html.twig
-    # choose only one
-    #use_propel:           false
-    #use_doctrine_odm:     false
-#    use_doctrine_orm:     true
+admingenerator_user:
+    login_template: NickyDigitalPhotoboothAdminBundle::base_admin_assetic_less.html.twig
+    #login_template: AdmingeneratorGeneratorBundle::base_login.html.twig
 
 fos_user:
     service:

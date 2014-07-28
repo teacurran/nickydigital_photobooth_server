@@ -1,0 +1,12 @@
+admin_event:
+    resource: "@NickyDigitalPhotoboothAdminBundle/Controller/Event/"
+    type:     admingenerator
+    prefix:   /admin/event
+
+#redirect admin homepage to post list
+#Trouve_Admin_home:
+#    defaults:
+#        _controller: FrameworkBundle:Redirect:redirect
+#        route: Trouve_AdminBundle_Post_list
+#        permanent: true
+#    pattern: /

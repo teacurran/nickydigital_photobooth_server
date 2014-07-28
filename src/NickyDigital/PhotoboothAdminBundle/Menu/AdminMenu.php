@@ -3,10 +3,7 @@
  * User: T. Curran
  * Date: 3/6/13
  */
-
-
 namespace NickyDigital\PhotoboothAdminBundle\Menu;
-
 
 use Knp\Menu\FactoryInterface;
 use Symfony\Component\HttpFoundation\Request;
@@ -16,27 +13,15 @@ class AdminMenu extends ContainerAware
 {
     private $factory;
 
-    /**
-     * @param \Knp\Menu\FactoryInterface $factory
-     */
-    public function __construct(FactoryInterface $factory)
-    {
-        $this->factory = $factory;
-    }
-
-    /**
-     * @param Request $request
-     * @param Router $router
-     */
-    public function createAdminMenu(Request $request)
-    {
+	public function mainMenu(FactoryInterface $factory, array $options) {
         $menu = $this->factory->createItem('root');
 
-        $menu->setchildrenAttributes(array('id' => 'main_navigation', 'class'=>'menu'));
+        $menu->setchildrenAttributes(array('id' => 'main_navigation', 'class'=>'nav'));
 
-        //Propel demos
-        $propel = $menu->addChild('Events', array('uri' => '/admin/event'));
+        $menu->addChild('Events', array('route' => 'NickyDigital_PhotoboothAdminBundle_event_list'));
+		$menu->addChild('Logout', array('route' => 'fos_user_security_logout'));
 
         return $menu;
     }
 }
+

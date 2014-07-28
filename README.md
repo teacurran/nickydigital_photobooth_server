@@ -34,8 +34,7 @@ date.timezone=America/New_York
 
 9. in the terminal type: mysql -u root -proot -e "CREATE DATABASE photobooth"
 
-10. cd /Users/nicky/nickydigital_photobooth_server/web
-note that "web" is added to this URL 
+10. cd /Users/nicky/nickydigital_photobooth_server
 
 11. ./update.sh
 
