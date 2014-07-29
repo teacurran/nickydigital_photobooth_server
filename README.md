@@ -98,9 +98,10 @@ Code Examples
 ===================================================
 
 Generate a enw admin page
-s2 admin:generate-admin --model-name=User --namespace=NickyDigital\PhotoboothBundle --bundle-name=PhotoboothBundle --dir=./src
+php app/console admin:generate-admin --model-name=User --namespace=NickyDigital\PhotoboothBundle --bundle-name=PhotoboothBundle --dir=./src
 
-
+Create an admin user
+php app/console fos:user:create --super-admin admin tea@approachingpi.com admin
  
 
 

@@ -9,10 +9,10 @@ nickydigital_photobooth_api:
     prefix:   /api
     defaults: { _format: json }
 
-admin_event:
-    resource: "@NickyDigitalPhotoboothAdminBundle/Controller/Event/"
-    type:     admingenerator
-    prefix:   /admin/event
+nickydigital_photobooth_admin:
+    resource: "@NickyDigitalPhotoboothAdminBundle/Resources/config/routing.yml"
+    prefix:   /admin
+
 
 
 #nicky_digital_photobooth:
