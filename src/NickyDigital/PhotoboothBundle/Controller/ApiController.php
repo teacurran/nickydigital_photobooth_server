@@ -988,6 +988,9 @@ class ApiController extends FOSRestController
 				);
 			
 				$upload->setServerResponse($tmhOAuth->response['raw']);
+				$json = json_decode($tmhOAuth->response['response'], true);
+
+				$upload->setFollowers($json['user']['followers_count']);
 
 				if ($code == 200){
 					$upload->setStatus("complete");

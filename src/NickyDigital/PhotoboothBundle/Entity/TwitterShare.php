@@ -28,6 +28,13 @@ class TwitterShare
 	private $account;
 
 	/**
+	 * @var integer
+	 *
+	 * @ORM\Column(name="followers", type="integer", nullable=true)
+	 */
+	private $followers;
+
+	/**
 	 * @ORM\ManyToOne(targetEntity="Photo", inversedBy="twitterShares")
 	 */
 	private $photo;
@@ -148,7 +155,21 @@ class TwitterShare
 		return $this->username;
 	}
 
+	/**
+	 * @return int
+	 */
+	public function getFollowers()
+	{
+		return $this->followers;
+	}
 
+	/**
+	 * @param int $followers
+	 */
+	public function setFollowers($followers)
+	{
+		$this->followers = $followers;
+	}
 
     /**
      * Set status

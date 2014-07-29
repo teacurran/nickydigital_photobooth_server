@@ -78,9 +78,13 @@ builders:
         show: ~
         edit: ~
         delete: ~
+  excel:
+      params: ~
+      filename: ~
+      filetype: ~
   filters:
     params:
-      display: ~
+      display: [id, eventCode, eventName]
   new:
     params:
       title: New Event
