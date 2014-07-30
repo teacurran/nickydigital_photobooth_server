@@ -38,12 +38,12 @@ class FacebookShare
 	private $photo;
 
 	/**
-	 * @ORM\Column(type="string", length=200, nullable=true)
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $oauthCode;
 
 	/**
-	 * @ORM\Column(type="string", length=200, nullable=true)
+	 * @ORM\Column(type="text", nullable=true)
 	 */
 	protected $oauthToken;
 
